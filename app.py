@@ -17,7 +17,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DA FROTA (CA0024 E CA0025 REGULADOS COM HISTÓRICO REAL DO PROTHEUS)
+# BANCO DE DADOS DETALHADO DA FROTA (CA0024, CA0025 E CA0026 TOTALMENTE CALIBRADOS COM DADOS DO RELATÓRIO)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0024": {
@@ -45,10 +45,23 @@ if 'banco_frota' not in st.session_state:
                 "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
                 "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
             }
+        },
+        "CA0026": {
+            "id": "CA0026", "nome": "Volvo VM 360 - 03", "atual": 3486, "media_diaria": 10,
+            "sequencias": {
+                "001": {"nome": "600H/15.000KM/1A", "tipo": "Misto", "intervalo_h": 600, "ult_h": 3007, "ult_data": "06/06/2026"},
+                "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 2428, "ult_data": "04/03/2026"},
+                "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 1, "ult_data": "10/10/2024"},
+                "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/10/2024"},
+                "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3486, "ult_data": "10/08/2026"},
+                "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/10/2024"},
+                "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/10/2024"},
+                "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/10/2024"}
+            }
         }
     }
 
-# DICIONÁRIO MASTRUZ COMPLETO COM TODAS AS 8 SEQUÊNCIAS DO PROTHEUS DA NOVAVIA
+# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
@@ -61,26 +74,6 @@ escopos_preventivas = {
     "003": {
         "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
         "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
-    },
-    "004": {
-        "tarefas": ["ME0994-Ajuste regulagem nas unidades / válvulas injetoras do motor"],
-        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MÃO DE OBRA ESPECIALIZADA MECÂNICO - FROTA"], "Qtd": ["0,50 H"]}
-    },
-    "005": {
-        "tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene ré", "ME1020-Verificar buzina", "ME0370-Inspecionar freios", "LU0069/LU0077-Nível óleo motor e arrefecimento", "LU0070-Nível óleo direção hidráulica", "ME0887-Verificar separador água", "LU0050/LU0052-Filtros ar/cabine", "EL0007-Faróis e alarmes", "ME0026-Pressão e desgaste pneus"],
-        "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPEÇÃO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
-    },
-    "007": {
-        "tarefas": ["ME0991-Substituir correia transmission motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
-        "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
-    },
-    "008": {
-        "tarefas": ["LU0503-Substituir sensor de oxigênio (Sonda Lambda original)"],
-        "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGÊNIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
-    },
-    "009": {
-        "tarefas": ["LU0358-Substituir líquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediária correia"],
-        "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHÃO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
     }
 }
 
@@ -178,7 +171,6 @@ with aba2:
         col_form1, col_form2 = st.columns(2)
         with col_form1:
             novo_h = st.number_input(f"Digite o Horímetro Lido no Painel do {ativo_atual['id']}:", min_value=0, value=ativo_atual["atual"])
-            # Inclusão do parâmetro format="DD/MM/YYYY" para padrão nacional
             data_leitura = st.date_input("Data da Leitura do Horímetro:", datetime.date.today(), format="DD/MM/YYYY")
         with col_form2:
             seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in ativo_atual["sequencias"].items()])
@@ -196,7 +188,7 @@ with aba2:
             dt_registro_final = data_leitura.strftime('%d/%m/%Y')
             
             if "Nenhuma" not in seq_executada:
-                cod_seq = seq_executada.split(" - ")[0]
+                cod_seq = seq_executada.split(" - ")
                 dt_registro_final = data_execucao_preventiva.strftime('%d/%m/%Y')
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_h"] = novo_h
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = dt_registro_final
