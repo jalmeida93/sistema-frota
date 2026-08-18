@@ -71,7 +71,7 @@ escopos_preventivas = {
         "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPEÇÃO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
     },
     "007": {
-        "tarefas": ["ME0991-Substituir correia transmissão motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
+        "tarefas": ["ME0991-Substituir correia transmission motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
         "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
     },
     "008": {
@@ -171,21 +171,22 @@ with aba1:
             dados_tabela = escopo["materials"] if "materials" in escopo else escopo["materiais"]
             st.table(pd.DataFrame(dados_tabela))
 
-# ABA 2: ENTRADA DE DADOS DA OFICINA COMPLETA COM CAMPOS DE DATA
+# ABA 2: ENTRADA DE DADOS DA OFICINA COMPLETA COM FORMATO DE DATA BRASILEIRO (DD/MM/AAAA)
 with aba2:
     st.subheader("Registrar Apontamento de Campo")
     with st.form("form_oficina_melhorado", clear_on_submit=True):
         col_form1, col_form2 = st.columns(2)
         with col_form1:
             novo_h = st.number_input(f"Digite o Horímetro Lido no Painel do {ativo_atual['id']}:", min_value=0, value=ativo_atual["atual"])
-            data_leitura = st.date_input("📅 Data da Leitura do Horímetro:", datetime.date.today())
+            # Inclusão do parâmetro format="DD/MM/YYYY" para padrão nacional
+            data_leitura = st.date_input("Data da Leitura do Horímetro:", datetime.date.today(), format="DD/MM/YYYY")
         with col_form2:
             seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in ativo_atual["sequencias"].items()])
-            data_execucao_preventiva = st.date_input("🛠️ Data Real da Execução da Sequência:", datetime.date.today())
+            data_execucao_preventiva = st.date_input("Data Real da Execução da Sequência:", datetime.date.today(), format="DD/MM/YYYY")
 
         num_os_manual = st.text_input("Nº da OS em Papel (Manual):", placeholder="Opcional")
         num_rm = st.text_input("Nº da Requisição gerada no RM:", placeholder="Opcional")
-        foto_os = st.file_uploader("📷 Anexe a foto da OS física:", type=["jpg", "jpeg", "png", "pdf"])
+        foto_os = st.file_uploader("Anexe a foto da OS física:", type=["jpg", "jpeg", "png", "pdf"])
         
         enviar = st.form_submit_button("Lançar Informações de Campo")
         
