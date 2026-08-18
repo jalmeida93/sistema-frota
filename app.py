@@ -17,7 +17,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DA FROTA (CA0024, CA0025 E CA0026 TOTALMENTE CALIBRADOS COM DADOS DO RELATÓRIO)
+# BANCO DE DADOS DETALHADO DA FROTA (CA0024, CA0025 E CA0026 CALIBRADOS COM DADOS DO PROTHEUS)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0024": {
@@ -61,7 +61,7 @@ if 'banco_frota' not in st.session_state:
         }
     }
 
-# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS
+# DICIONÁRIO COMPLETO COM TODAS AS FREQUÊNCIAS OPERACIONAIS ATIVAS DO PROTHEUS
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
@@ -74,11 +74,32 @@ escopos_preventivas = {
     "003": {
         "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
         "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
+    },
+    "004": {
+        "tarefas": ["ME0994-Ajuste regulagem nas unidades / válvulas injetoras do motor (Mecânica de Cabeçote)"],
+        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MÃO DE OBRA ESPECIALIZADA MECÂNICO - FROTA"], "Qtd": ["0,50 H"]}
+    },
+    "005": {
+        "tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene ré", "ME1020-Verificar buzina", "ME0370-Inspecionar freios", "LU0069/LU0077-Nível óleo motor e arrefecimento", "LU0070-Nível óleo direção hidráulica", "ME0887-Verificar separador água", "LU0050/LU0052-Filtros ar/cabine", "EL0007-Faróis e alarmes", "ME0026-Pressão e desgaste pneus"],
+        "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPEÇÃO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
+    },
+    "007": {
+        "tarefas": ["ME0991-Substituir correia transmissão motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
+        "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
+    },
+    "008": {
+        "tarefas": ["LU0503-Substituir sensor de oxigênio (Sonda Lambda original)"],
+        "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGÊNIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
+    },
+    "009": {
+        "tarefas": ["LU0358-Substituir líquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediária correia"],
+        "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHÃO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
     }
 }
 
 if 'historico' not in st.session_state:
     st.session_state.historico = []
+
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if horas_restantes <= 0: return None
     if media_diaria <= 0: return None
@@ -150,6 +171,7 @@ with aba1:
         })
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
 
+    # DINÂMICA DE CONSULTA COMPLETA DAS 8 SEQUÊNCIAS DA NOVAVIA
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas e Insumos Faturados")
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", list(escopos_preventivas.keys()))
@@ -161,8 +183,7 @@ with aba1:
             for t in escopo["tarefas"]: st.write(t)
         with col2:
             st.markdown(f"**📦 Código de Produtos e Consumo Real (Espelho RM):**")
-            dados_tabela = escopo["materials"] if "materials" in escopo else escopo["materiais"]
-            st.table(pd.DataFrame(dados_tabela))
+            st.table(pd.DataFrame(escopo["materiais"]))
 
 # ABA 2: ENTRADA DE DADOS DA OFICINA COMPLETA COM FORMATO DE DATA BRASILEIRO (DD/MM/AAAA)
 with aba2:
@@ -183,18 +204,18 @@ with aba2:
         enviar = st.form_submit_button("Lançar Informações de Campo")
         
         if enviar:
-            st.session_state.banco_frota[tag_selecionado]["atual"] = novo_h
+            st.session_state.banco_frota[tag_selecionado]["atual"] = Filter_h if 'Filter_h' in locals() else novo_h
             texto_acao = "Apenas Atualização de Horímetro"
             dt_registro_final = data_leitura.strftime('%d/%m/%Y')
             
             if "Nenhuma" not in seq_executada:
-                cod_seq = seq_executada.split(" - ")
+                cod_seq = seq_executada.split(" - ")[0]
                 dt_registro_final = data_execucao_preventiva.strftime('%d/%m/%Y')
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_h"] = novo_h
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = dt_registro_final
                 texto_acao = f"Fechamento Completo da Sequência {cod_seq}"
                 
-            nome_foto = foto_os.name if foto_os is not None else "Nao anexada"
+            nome_foto = photo_os.name if 'photo_os' in locals() else (foto_os.name if foto_os is not None else "Nao anexada")
             st.session_state.historico.append({
                 "Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'),
                 "Ativo / TAG": tag_selecionado,
