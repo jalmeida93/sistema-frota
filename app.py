@@ -99,6 +99,7 @@ escopos_preventivas = {
 
 if 'historico' not in st.session_state:
     st.session_state.historico = []
+
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if horas_restantes <= 0: return None
     if media_diaria <= 0: return None
@@ -107,36 +108,42 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-# FUNÇÃO COMPACTA PARA GERAR PDF COMPLETO DA FROTA
-def gerar_pdf_impressao(ativo, tabela_dados):
+# FUNÇÃO REFORMULADA BLINDADA CONTRA ERROS DE ACENTUAÇÃO EM LATIN-1
+def gerar_pdf_impressao_blindado(ativo, tabela_dados):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", style="B", size=14)
-    pdf.cell(200, 10, txt="NOVAVIA MINERACAO - RELATORIO DE PREVENTIVAS", ln=1, align="C")
+    pdf.cell(200, 10, txt="NOVAVIA MINERACAO - PLANO DE PREVENTIVAS", ln=1, align="C")
     pdf.set_font("Arial", size=11)
-    pdf.cell(200, 8, txt=f"Equipamento: {ativo['nome']} ({ativo['id']}) | Horimetro: {ativo['atual']} hrs", ln=1, align="C")
-    pdf.cell(200, 8, txt=f"Data de Emissao: {datetime.date.today().strftime('%d/%m/%Y')}", ln=1, align="C")
+    pdf.cell(200, 8, txt=f"Ativo: {ativo['id']} | Horimetro Atual: {ativo['atual']} hrs", ln=1, align="C")
+    pdf.cell(200, 8, txt=f"Emissao: {datetime.date.today().strftime('%d/%m/%Y')}", ln=1, align="C")
     pdf.ln(10)
     
+    # Linhas limpas sem nenhum tipo de acentuação para evitar quebras de codificação
     pdf.set_font("Arial", style="B", size=10)
     pdf.cell(15, 8, "Seq", border=1)
-    pdf.cell(60, 8, "Frequencia Mestre", border=1)
+    pdf.cell(65, 8, "Frequencia Mestre", border=1)
     pdf.cell(50, 8, "Ultima Execucao", border=1)
     pdf.cell(40, 8, "Proxima Meta", border=1)
     pdf.cell(25, 8, "Status", border=1, ln=1)
     
     pdf.set_font("Arial", size=9)
     for linha in tabela_dados:
+        # Garante a limpeza de strings removendo qualquer acento invisível vindo do painel dinâmico
+        frequencia_limpa = str(linha["Descrição da Frequência Mestre"]).replace("í", "i").replace("ã", "a")
+        ult_execucao_limpa = str(linha["Última Execução"]).replace("ç", "c").replace("ã", "a")
+        status_limpo = str(linha["Status"]).replace("🟢", "OK").replace("🔴", "VENCIDA").replace("🟡", "ALERTA")
+        
         pdf.cell(15, 8, str(linha["Seq"]), border=1)
-        pdf.cell(60, 8, str(linha["Descrição da Frequência Mestre"]), border=1)
-        pdf.cell(50, 8, str(linha["Última Execução"]), border=1)
+        pdf.cell(65, 8, frequencia_limpa, border=1)
+        pdf.cell(50, 8, ult_execucao_limpa, border=1)
         pdf.cell(40, 8, str(linha["Próxima Meta"]), border=1)
-        pdf.cell(25, 8, str(linha["Status"]), border=1, ln=1)
+        pdf.cell(25, 8, status_limpo, border=1, ln=1)
         
     return pdf.output(dest="S").encode("latin-1", errors="ignore")
 
 # SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA
-col_sel1, col_sel2, col_sel3 = st.columns([2, 1, 1])
+col_sel1, col_sel2, col_sel3 = st.columns(3)
 with col_sel1:
     tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
     ativo_atual = st.session_state.banco_frota[tag_selecionado]
@@ -200,16 +207,14 @@ with aba1:
         
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
 
-    # 🖨️ BOTÕES DE IMPRESSÃO (AO LADO DO SELETOR)
+    # BARRA DE UTILITÁRIOS ATUALIZADA E BLINDADA
     with col_sel2:
-        # Método 1: Botão Javascript que abre o menu de impressão física do próprio navegador
         st.markdown("<p style='margin-bottom:5px;'>🖨️ Imprimir Tela</p>", unsafe_allow_html=True)
         st.markdown('<button onclick="window.print()" style="width:100%; height:38px; background-color:#F3F4F6; border:1px solid #D1D5DB; border-radius:5px; cursor:pointer;">⎙ Imprimir Pagina</button>', unsafe_allow_html=True)
         
     with col_sel3:
-        # Método 2: Botão que exporta os dados limpos em PDF profissional para download
         st.markdown("<p style='margin-bottom:5px;'>📄 Gerar Relatório</p>", unsafe_allow_html=True)
-        pdf_bytes = gerar_pdf_impressao(ativo_atual, dados_painel)
+        pdf_bytes = gerar_pdf_impressao_blindado(ativo_atual, dados_painel)
         st.download_button(label="📥 Baixar PDF", data=pdf_bytes, file_name=f"Plano_{tag_selecionado}.pdf", mime="application/pdf", use_container_width=True)
 
     st.markdown("---")
@@ -276,5 +281,4 @@ with aba3:
     if len(st.session_state.historico) == 0:
         st.info("Nenhuma preventiva baixada durante o período de contingência.")
     else:
-        st.dataframe(pd.DataFrame(st.session_state.historico), use_container_width=True, hide_index=True)
-
+st.dataframe(pd.DataFrame(st.session_state.historico), use_container_width=True, hide_index=True)
