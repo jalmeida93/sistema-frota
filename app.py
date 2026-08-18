@@ -11,7 +11,7 @@ st.set_page_config(page_title="Contingência - Gestão de Frotas", layout="wide"
 # 1. BANCO DE DADOS DE CONTINGÊNCIA (Simulação dos seus ativos)
 if 'frota' not in st.session_state:
     st.session_state.frota = [
-        {"id": "VM-01", "nome": "Volvo VM 360 - 01", "tipo": "KM", "atual": 120000, "gatilho": 135000, "media": 150, "pecas": "Filtro de Óleo, Filtro de Combustível, Óleo Motor 15W40"},
+        {"id": "CA0024", "nome": "Volvo VM 360 - 01", "tipo": "Horas", "atual": , "gatilho": 135000, "media": 150, "pecas": "Filtro de Óleo, Filtro de Combustível, Óleo Motor 15W40"},
         {"id": "VM-02", "nome": "Volvo VM 360 - 02", "tipo": "KM", "atual": 98000, "gatilho": 100000, "media": 200, "pecas": "Filtro de Óleo, Filtro de Combustível, Óleo Motor 15W40"},
         {"id": "VM-03", "nome": "Volvo VM 360 - 03", "tipo": "KM", "atual": 45000, "gatilho": 50000, "media": 120, "pecas": "Filtro de Óleo, Filtro de Combustível, Óleo Motor 15W40"},
         {"id": "IV-01", "nome": "Iveco 260E25", "tipo": "KM", "atual": 241000, "gatilho": 240000, "media": 100, "pecas": "Filtro de Óleo, Filtro de Combustível, Kit de Freios"},
