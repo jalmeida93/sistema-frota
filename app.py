@@ -17,7 +17,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DA FROTA (CA0024 E CA0025 COM DADOS REAIS DO PROTHEUS)
+# BANCO DE DADOS DETALHADO DA FROTA (CA0024 E CA0025 REGULADOS)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0024": {
@@ -48,7 +48,7 @@ if 'banco_frota' not in st.session_state:
         }
     }
 
-# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS
+# DICIONÁRIO COMPLETO COM TODAS AS 8 SEQUÊNCIAS ATIVAS DO PROTHEUS
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
@@ -56,11 +56,31 @@ escopos_preventivas = {
     },
     "002": {
         "tarefas": ["LU0303-Substituir óleo do câmbio e limpeza do respiro", "LU0341-Substituir filtro do óleo de transmissão e diferencial", "LU0386-Substituir óleo do eixo dianteiro", "LU0387-Substituir óleo do eixo traseiro", "LU0562 / LU0563-Substituir óleo do cubo dianteiro (Dir/Esq)", "LU0564 / LU0565-Substituir óleo do cubo traseiro (Dir/Esq)"],
-        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["ÓLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANÇA VO24283117 CAM", "ÓLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
+        "materials": {"Código": ["27348", "27839", "27239"], "Descrição": ["ÓLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANÇA VO24283117 CAM", "ÓLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
     },
     "003": {
         "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
-        "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
+        "materials": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
+    },
+    "004": {
+        "tarefas": ["ME0994-Ajuste regulagem nas unidades / válvulas injetoras do motor"],
+        "materials": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MÃO DE OBRA ESPECIALIZADA MECÂNICO - FROTA"], "Qtd": ["0,50 H"]}
+    },
+    "005": {
+        "tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene ré", "ME1020-Verificar buzina", "ME0370-Inspecionar freios", "LU0069/LU0077-Nível óleo motor e arrefecimento", "LU0070-Nível óleo direção hidráulica", "ME0887-Verificar separador água", "LU0050/LU0052-Filtros ar/cabine", "EL0007-Faróis e alarmes", "ME0026-Pressão e desgaste pneus"],
+        "materials": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPEÇÃO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
+    },
+    "007": {
+        "tarefas": ["ME0991-Substituir correia transmissão motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
+        "materials": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
+    },
+    "008": {
+        "tarefas": ["LU0503-Substituir sensor de oxigênio (Sonda Lambda original)"],
+        "materials": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGÊNIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
+    },
+    "009": {
+        "tarefas": ["LU0358-Substituir líquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediária correia"],
+        "materials": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHÃO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
     }
 }
 
@@ -75,7 +95,7 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     return pd.to_datetime(data_futura).date()
 
 # SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA
-tag_selecionado = st.selectbox("🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
+tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
 ativo_atual = st.session_state.banco_frota[tag_selecionado]
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
@@ -148,7 +168,9 @@ with aba1:
             for t in escopo["tarefas"]: st.write(t)
         with col2:
             st.markdown(f"**📦 Código de Produtos e Consumo Real (Espelho RM):**")
-            st.table(pd.DataFrame(escopo["materiais"]))
+            # Correção para aceitar chaves variadas nos blocos
+            dados_tabela = escopo["materials"] if "materials" in escopo else escopo["materiais"]
+            st.table(pd.DataFrame(dados_tabela))
 
 # ABA 2: ENTRADA DE DADOS DA OFICINA
 with aba2:
