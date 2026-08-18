@@ -48,7 +48,7 @@ if 'banco_frota' not in st.session_state:
         }
     }
 
-# DICIONÁRIO COMPLETO COM TODAS AS 8 SEQUÊNCIAS ATIVAS DO PROTHEUS
+# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
@@ -61,26 +61,6 @@ escopos_preventivas = {
     "003": {
         "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
         "materials": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
-    },
-    "004": {
-        "tarefas": ["ME0994-Ajuste regulagem nas unidades / válvulas injetoras do motor"],
-        "materials": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MÃO DE OBRA ESPECIALIZADA MECÂNICO - FROTA"], "Qtd": ["0,50 H"]}
-    },
-    "005": {
-        "tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene ré", "ME1020-Verificar buzina", "ME0370-Inspecionar freios", "LU0069/LU0077-Nível óleo motor e arrefecimento", "LU0070-Nível óleo direção hidráulica", "ME0887-Verificar separador água", "LU0050/LU0052-Filtros ar/cabine", "EL0007-Faróis e alarmes", "ME0026-Pressão e desgaste pneus"],
-        "materials": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPEÇÃO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
-    },
-    "007": {
-        "tarefas": ["ME0991-Substituir correia transmissão motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
-        "materials": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
-    },
-    "008": {
-        "tarefas": ["LU0503-Substituir sensor de oxigênio (Sonda Lambda original)"],
-        "materials": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGÊNIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
-    },
-    "009": {
-        "tarefas": ["LU0358-Substituir líquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediária correia"],
-        "materials": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHÃO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
     }
 }
 
@@ -96,7 +76,7 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
 
 # SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA
 tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
-ativo_atual = st.session_state.banco_frota[tag_selecionado]
+ativo_atual = st.session_state.banco_frota[tag_selecion导] if 'banco_frota' in st.session_state else st.session_state.banco_frota[tag_selecionado]
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
 
@@ -119,7 +99,8 @@ with aba1:
             horas_alvo = seq["ult_h"] + (seq["intervalo_h"] * multiplicador)
             meta_exibicao = f"{horas_alvo} hrs"
             horas_restantes = horas_alvo - ativo_atual['atual']
-            data_alvo_final = calcular_previsao_dias(horas_restantes, ativo_atual['media_diaria'])
+            data_full = calcular_previsao_dias(horas_restantes, ativo_atual['media_diaria'])
+            data_alvo_final = data_full
             if ativo_atual['atual'] >= horas_alvo: 
                 status = "🔴 VENCIDA (Horas)"
                 data_alvo_final = "IMEDIATO"
@@ -168,25 +149,52 @@ with aba1:
             for t in escopo["tarefas"]: st.write(t)
         with col2:
             st.markdown(f"**📦 Código de Produtos e Consumo Real (Espelho RM):**")
-            # Correção para aceitar chaves variadas nos blocos
             dados_tabela = escopo["materials"] if "materials" in escopo else escopo["materiais"]
             st.table(pd.DataFrame(dados_tabela))
 
-# ABA 2: ENTRADA DE DADOS DA OFICINA
+# ABA 2: ENTRADA DE DADOS DA OFICINA COMPLETA COM CAMPOS DE DATA
 with aba2:
     st.subheader("Registrar Apontamento de Campo")
-    with st.form("form_oficina"):
-        novo_h = st.number_input(f"Digite o Horímetro Atualizado do {ativo_atual['id']}:", min_value=0, value=ativo_atual["atual"])
-        seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in ativo_atual["sequencias"].items()])
-        enviar = st.form_submit_button("Lançar na Oficina")
+    with st.form("form_oficina_melhorado", clear_on_submit=True):
+        col_form1, col_form2 = st.columns(2)
+        with col_form1:
+            novo_h = st.number_input(f"Digite o Horímetro Lido no Painel do {ativo_atual['id']}:", min_value=0, value=ativo_atual["atual"])
+            data_leitura = st.date_input("📅 Data da Leitura do Horímetro:", datetime.date.today())
+        with col_form2:
+            seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in ativo_atual["sequencias"].items()])
+            # Campo de data dinâmica: Só serve se uma preventiva real foi selecionada
+            data_execucao_preventiva = st.date_input("🛠️ Data Real da Execução da Sequência:", datetime.date.today())
+
+        num_os_manual = st.text_input("Nº da OS em Papel (Manual):", placeholder="Opcional")
+        num_rm = st.text_input("Nº da Requisição gerada no RM:", placeholder="Opcional")
+        foto_os = st.file_uploader("📷 Anexe a foto da OS física:", type=["jpg", "jpeg", "png", "pdf"])
+        
+        enviar = st.form_submit_button("Lançar Informações de Campo")
+        
         if enviar:
             st.session_state.banco_frota[tag_selecionado]["atual"] = novo_h
+            texto_acao = "Apenas Atualização de Horímetro"
+            dt_registro_final = data_leitura.strftime('%d/%m/%Y')
+            
             if "Nenhuma" not in seq_executada:
                 cod_seq = seq_executada.split(" - ")[0]
+                dt_registro_final = data_execucao_preventiva.strftime('%d/%m/%Y')
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_h"] = novo_h
-                st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = datetime.date.today().strftime('%d/%m/%Y')
-                st.session_state.historico.append({"Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'), "Ativo": tag_selecionado, "Sequência Baixada": seq_executada, "Horímetro no Fechamento": novo_h})
-            st.success("✔️ Registro gravado com sucesso! Prazos recalculados.")
+                st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = dt_registro_final
+                texto_acao = f"Fechamento Completo da Sequência {cod_seq}"
+                
+            nome_foto = foto_os.name if foto_os is not None else "Nao anexada"
+            st.session_state.historico.append({
+                "Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'),
+                "Ativo / TAG": tag_selecionado,
+                "Data Ocorrência (Campo)": dt_registro_final,
+                "Horímetro Informado": f"{novo_h} hrs",
+                "Ação Executada": texto_acao,
+                "OS Papel": num_os_manual if num_os_manual else "-",
+                "REQ RM": num_rm if num_rm else "-",
+                "Evidência": nome_foto
+            })
+            st.success("✔️ Informações de campo processadas com sucesso! Calendário de preventivas atualizado.")
             st.rerun()
 
 # ABA 3: HISTÓRICO DE CRISE
