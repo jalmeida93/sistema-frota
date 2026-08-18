@@ -17,7 +17,7 @@ if 'frota' not in st.session_state:
             "atual": 3443, 
             "ult_rev_horas": 3009, 
             "ult_rev_data": "15/02/2026", 
-            "media": 10, # 10 horas rodadas por dia
+            "media": 10,
             "pecas_600": "Filtro Oleo Motor, Oleo 15W40, Filtros Combustivel"
         }
     ]
@@ -57,11 +57,8 @@ with aba1:
     dados_painel = []
     
     for ativo in st.session_state.frota:
-        # Ponto zero (3009) + Frequência exata (600) = Meta (3609)
         horas_alvo = ativo['ult_rev_horas'] + 600
         horas_restantes = horas_alvo - ativo['atual']
-        
-        # Calcula a data alvo considerando as 10 horas rodadas por dia útil
         data_final = calcular_previsao_dias(horas_restantes, ativo['media'])
         
         status_geral = "🟢 OK"
@@ -69,15 +66,43 @@ with aba1:
             status_geral = "🔴 VENCIDA"
             
         dados_painel.append({
-            "ID / TAG": ativo['id'],
-            "Equipamento": ativo['nome'],
-            "Horímetro Atual": f"{ativo['atual']} hrs",
-            "Última Revisão": f"{ativo['ult_rev_horas']} hrs ({ativo['ult_rev_data']})",
-            "Próxima Meta": f"{horas_alvo} hrs",
-            "Data Alvo": data_final.strftime('%d/%m/%Y') if data_final else "IMEDIATO",
-            "Status": status_geral
+            "ID / TAG": ativo['id'], "Equipamento": ativo['nome'], "Horímetro Atual": f"{ativo['atual']} hrs",
+            "Última Revisão": f"{ativo['ult_rev_horas']} hrs ({ativo['ult_rev_data']})", "Próxima Meta": f"{horas_alvo} hrs",
+            "Data Alvo": data_final.strftime('%d/%m/%Y') if data_final else "IMEDIATO", "Status": status_geral
         })
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
+
+    # BOTÃO EXPANSOR PARA TAREFAS E MATERIAIS DA PREVENTIVA 600H
+    st.markdown("---")
+    with st.expander("📋 Ver Escopo Técnico da Preventiva (Tarefas e Materiais)"):
+        st.markdown("### 🛠️ Sequência 001 - Escopo Técnico Preventiva 600 Horas")
+        
+        col_esq, col_dir = st.columns(2)
+        
+        with col_esq:
+            st.markdown("**📋 Lista de Tarefas (O que executar):**")
+            st.write("1. Efetuar a troca do óleo lubrificante do motor.")
+            st.write("2. Substituir os filtros de óleo e combustível.")
+            st.write("3. Substituir o elemento do filtro separador de água.")
+            st.write("4. Reapertar os coxins do motor e da transmissão.")
+            st.write("5. Lubrificar totalmente o chassi, quinta roda e articulações com graxa.")
+            st.write("6. Inspecionar lonas de freio, vazamentos em cubos e folgas de direção.")
+            
+        with col_dir:
+            st.markdown("**📦 Materiais e Insumos Necessários:**")
+            
+            # Criando uma tabelinha limpa para os materiais
+            materiais = {
+                "Item / Componente": [
+                    "Óleo Lubrificante Motor 15W40 CI-4", 
+                    "Filtro de Óleo Lubrificante (Motor)", 
+                    "Filtro de Combustível Principal", 
+                    "Elemento do Filtro Separador de Água",
+                    "Graxa Extrema Pressão EP2 (Chassis)"
+                ],
+                "Quantidade": ["32 Litros", "2 Unidades", "1 Unidade", "1 Unidade", "2 Quilos"]
+            }
+            st.table(pd.DataFrame(materiais))
 
 # ABA 2: CONSULTA DE PLANOS MESTRE
 with aba2:
@@ -93,10 +118,9 @@ with aba3:
         enviar = st.form_submit_button("Salvar Registro")
         if enviar:
             for a in st.session_state.frota:
-                a['atual'] = novo_horimetro
+                a['atual'] = Grid_horimetro if 'Grid_horimetro' in locals() else novo_horimetro
                 if "001" in revisao_executada:
                     a['ult_rev_horas'] = novo_horimetro
                     a['ult_rev_data'] = datetime.date.today().strftime('%d/%m/%Y')
             st.success("✔️ Registro salvo com sucesso!")
             st.rerun()
-
