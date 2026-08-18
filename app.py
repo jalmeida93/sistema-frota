@@ -112,10 +112,16 @@ with aba1:
     hoje = datetime.date.today()
     for ativo in st.session_state.frota:
         horas_desde_ultima = ativo['atual'] - ativo['ult_rev_horas']
-        prox_250 = ativo['ult_rev_horas'] + 250
-        prox_500 = ativo['ult_rev_horas'] + 500
-        prox_1000 = ativo['ult_rev_horas'] + 1000
-        prox_2000 = ativo['ult_rev_horas'] + 2000
+        # Identifica se é caminhão Volvo (TAG começa com CA) para mudar a frequência de revisão
+        if ativo['id'].startswith("CA"):
+            frequencia = 600
+        else:
+            frequencia = 250
+            
+        prox_250 = ativo['ult_rev_horas'] + frequencia
+        prox_500 = ativo['ult_rev_horas'] + (frequencia * 2)
+        prox_1000 = ativo['ult_rev_horas'] + (frequencia * 4)
+        prox_2000 = ativo['ult_rev_horas'] + (frequencia * 8)
         data_ult = datetime.datetime.strptime(ativo['ult_rev_data'], "%d/%m/%Y").date()
         data_limite_tempo = data_ult + datetime.timedelta(days=365)
         if horas_desde_ultima < 250:
