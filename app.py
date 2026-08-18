@@ -74,9 +74,9 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-# SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA
+# SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA (CORRIGIDO)
 tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
-ativo_atual = st.session_state.banco_frota[tag_selecion导] if 'banco_frota' in st.session_state else st.session_state.banco_frota[tag_selecionado]
+ativo_atual = st.session_state.banco_frota[tag_selecionado]
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
 
@@ -99,8 +99,7 @@ with aba1:
             horas_alvo = seq["ult_h"] + (seq["intervalo_h"] * multiplicador)
             meta_exibicao = f"{horas_alvo} hrs"
             horas_restantes = horas_alvo - ativo_atual['atual']
-            data_full = calcular_previsao_dias(horas_restantes, ativo_atual['media_diaria'])
-            data_alvo_final = data_full
+            data_alvo_final = calcular_previsao_dias(horas_restantes, ativo_atual['media_diaria'])
             if ativo_atual['atual'] >= horas_alvo: 
                 status = "🔴 VENCIDA (Horas)"
                 data_alvo_final = "IMEDIATO"
@@ -162,7 +161,6 @@ with aba2:
             data_leitura = st.date_input("📅 Data da Leitura do Horímetro:", datetime.date.today())
         with col_form2:
             seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in ativo_atual["sequencias"].items()])
-            # Campo de data dinâmica: Só serve se uma preventiva real foi selecionada
             data_execucao_preventiva = st.date_input("🛠️ Data Real da Execução da Sequência:", datetime.date.today())
 
         num_os_manual = st.text_input("Nº da OS em Papel (Manual):", placeholder="Opcional")
