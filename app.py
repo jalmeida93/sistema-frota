@@ -17,7 +17,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DA FROTA (CA0024, CA0025 E CA0026 CALIBRADOS COM DADOS DO PROTHEUS)
+# BANCO DE DADOS DETALHADO DA FROTA (CA0024, CA0025 E CA0026 CALIBRADOS)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0024": {
@@ -61,7 +61,7 @@ if 'banco_frota' not in st.session_state:
         }
     }
 
-# DICIONÁRIO COMPLETO COM TODAS AS FREQUÊNCIAS OPERACIONAIS ATIVAS DO PROTHEUS
+# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
@@ -84,7 +84,7 @@ escopos_preventivas = {
         "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPEÇÃO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
     },
     "007": {
-        "tarefas": ["ME0991-Substituir correia transmissão motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
+        "tarefas": ["ME0991-Substituir correia transmission motriz", "LU0357-Substituir fluido direção hidráulica", "LU0324-Substituir filtro direção hidráulica"],
         "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
     },
     "008": {
@@ -99,7 +99,6 @@ escopos_preventivas = {
 
 if 'historico' not in st.session_state:
     st.session_state.historico = []
-
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if horas_restantes <= 0: return None
     if media_diaria <= 0: return None
@@ -108,15 +107,44 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
+# FUNÇÃO COMPACTA PARA GERAR PDF COMPLETO DA FROTA
+def gerar_pdf_impressao(ativo, tabela_dados):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", style="B", size=14)
+    pdf.cell(200, 10, txt="NOVAVIA MINERACAO - RELATORIO DE PREVENTIVAS", ln=1, align="C")
+    pdf.set_font("Arial", size=11)
+    pdf.cell(200, 8, txt=f"Equipamento: {ativo['nome']} ({ativo['id']}) | Horimetro: {ativo['atual']} hrs", ln=1, align="C")
+    pdf.cell(200, 8, txt=f"Data de Emissao: {datetime.date.today().strftime('%d/%m/%Y')}", ln=1, align="C")
+    pdf.ln(10)
+    
+    pdf.set_font("Arial", style="B", size=10)
+    pdf.cell(15, 8, "Seq", border=1)
+    pdf.cell(60, 8, "Frequencia Mestre", border=1)
+    pdf.cell(50, 8, "Ultima Execucao", border=1)
+    pdf.cell(40, 8, "Proxima Meta", border=1)
+    pdf.cell(25, 8, "Status", border=1, ln=1)
+    
+    pdf.set_font("Arial", size=9)
+    for linha in tabela_dados:
+        pdf.cell(15, 8, str(linha["Seq"]), border=1)
+        pdf.cell(60, 8, str(linha["Descrição da Frequência Mestre"]), border=1)
+        pdf.cell(50, 8, str(linha["Última Execução"]), border=1)
+        pdf.cell(40, 8, str(linha["Próxima Meta"]), border=1)
+        pdf.cell(25, 8, str(linha["Status"]), border=1, ln=1)
+        
+    return pdf.output(dest="S").encode("latin-1", errors="ignore")
+
 # SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA
-tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
-ativo_atual = st.session_state.banco_frota[tag_selecionado]
+col_sel1, col_sel2, col_sel3 = st.columns([2, 1, 1])
+with col_sel1:
+    tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
+    ativo_atual = st.session_state.banco_frota[tag_selecionado]
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
 
 with aba1:
     st.subheader(f"Situação dos Ciclos de Manutenção Preventiva - Ativo: {ativo_atual['id']}")
-    st.markdown(f"**Contador Atual:** `{ativo_atual['atual']} hrs` | **Ritmo:** `{ativo_atual['media_diaria']} horas/dia útil` (Sáb/Dom desconsiderados)")
     
     dados_painel = []
     hoje = datetime.date.today()
@@ -169,9 +197,21 @@ with aba1:
             "Seq": seq_id, "Descrição da Frequência Mestre": seq["nome"], "Última Execução": f"{seq['ult_h']} hrs ({seq['ult_data']})",
             "Próxima Meta": meta_exibicao, "Data Alvo": texto_data_alvo, "Status": status
         })
+        
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
 
-    # DINÂMICA DE CONSULTA COMPLETA DAS 8 SEQUÊNCIAS DA NOVAVIA
+    # 🖨️ BOTÕES DE IMPRESSÃO (AO LADO DO SELETOR)
+    with col_sel2:
+        # Método 1: Botão Javascript que abre o menu de impressão física do próprio navegador
+        st.markdown("<p style='margin-bottom:5px;'>🖨️ Imprimir Tela</p>", unsafe_allow_html=True)
+        st.markdown('<button onclick="window.print()" style="width:100%; height:38px; background-color:#F3F4F6; border:1px solid #D1D5DB; border-radius:5px; cursor:pointer;">⎙ Imprimir Pagina</button>', unsafe_allow_html=True)
+        
+    with col_sel3:
+        # Método 2: Botão que exporta os dados limpos em PDF profissional para download
+        st.markdown("<p style='margin-bottom:5px;'>📄 Gerar Relatório</p>", unsafe_allow_html=True)
+        pdf_bytes = gerar_pdf_impressao(ativo_atual, dados_painel)
+        st.download_button(label="📥 Baixar PDF", data=pdf_bytes, file_name=f"Plano_{tag_selecionado}.pdf", mime="application/pdf", use_container_width=True)
+
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas e Insumos Faturados")
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", list(escopos_preventivas.keys()))
@@ -183,9 +223,10 @@ with aba1:
             for t in escopo["tarefas"]: st.write(t)
         with col2:
             st.markdown(f"**📦 Código de Produtos e Consumo Real (Espelho RM):**")
-            st.table(pd.DataFrame(escopo["materiais"]))
+            dados_tabela = escopo["materials"] if "materials" in escopo else escopo["materiais"]
+            st.table(pd.DataFrame(dados_tabela))
 
-# ABA 2: ENTRADA DE DADOS DA OFICINA COMPLETA COM FORMATO DE DATA BRASILEIRO (DD/MM/AAAA)
+# ABA 2: ENTRADA DE DADOS DA OFICINA
 with aba2:
     st.subheader("Registrar Apontamento de Campo")
     with st.form("form_oficina_melhorado", clear_on_submit=True):
@@ -204,18 +245,18 @@ with aba2:
         enviar = st.form_submit_button("Lançar Informações de Campo")
         
         if enviar:
-            st.session_state.banco_frota[tag_selecionado]["atual"] = Filter_h if 'Filter_h' in locals() else novo_h
+            st.session_state.banco_frota[tag_selecionado]["atual"] = novo_h
             texto_acao = "Apenas Atualização de Horímetro"
             dt_registro_final = data_leitura.strftime('%d/%m/%Y')
             
             if "Nenhuma" not in seq_executada:
-                cod_seq = seq_executada.split(" - ")[0]
+                cod_seq = seq_executada.split(" - ")
                 dt_registro_final = data_execucao_preventiva.strftime('%d/%m/%Y')
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_h"] = novo_h
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = dt_registro_final
                 texto_acao = f"Fechamento Completo da Sequência {cod_seq}"
                 
-            nome_foto = photo_os.name if 'photo_os' in locals() else (foto_os.name if foto_os is not None else "Nao anexada")
+            nome_foto = foto_os.name if foto_os is not None else "Nao anexada"
             st.session_state.historico.append({
                 "Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'),
                 "Ativo / TAG": tag_selecionado,
@@ -236,3 +277,4 @@ with aba3:
         st.info("Nenhuma preventiva baixada durante o período de contingência.")
     else:
         st.dataframe(pd.DataFrame(st.session_state.historico), use_container_width=True, hide_index=True)
+
