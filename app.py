@@ -4,17 +4,22 @@ import datetime
 import numpy as np
 import io
 from fpdf import FPDF
+import os
 
 st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
 
-# IDENTIDADE VISUAL E LOGO (CONFIGURAÇÃO DO TOPO)
-col_logo, col_titulo = st.columns([1, 4])
+# IDENTIDADE VISUAL E LOGO REAL (CONFIGURAÇÃO DO TOPO)
+col_logo, col_titulo = st.columns([1, 4]) # Ajusta a proporção para o logo não ficar gigante
 with col_logo:
-    # Espaço reservado para o logotipo com visual moderno
-    st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
+    # Verifica se o arquivo logo.png foi enviado para a pasta
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=150)
+    else:
+        # Mostra um ícone temporário caso você ainda não tenha subido a imagem
+        st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
 with col_titulo:
     st.markdown("<h2 style='margin:0; padding:0; color: #1E3A8A;'>Plano Preventivas Novavia Mineração</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='font-style: italic; color: #555; margin:0;'>Gestão de Ativos e Engenharia de Confiabilidade</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-style: italic; color: #555; margin:0;'>Gestão de Ativos e Confiabilidade</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -57,7 +62,7 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "📋 Planos Cadastrados (Mestre)", "👨‍🔧 Oficina / Lançamentos"])
 
-# ABA 1: PAINEL DE CONTROLE (MATEMÁTICA CORRIGIDA)
+# ABA 1: PAINEL DE CONTROLE
 with aba1:
     st.subheader("Situação dos Ciclos de Manutenção Preventiva")
     dados_painel = []
