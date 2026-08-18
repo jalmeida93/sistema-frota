@@ -5,7 +5,18 @@ import numpy as np
 import io
 from fpdf import FPDF
 
-st.set_page_config(page_title="Contingência CA0024", layout="wide", page_icon="🚛")
+st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
+
+# IDENTIDADE VISUAL E LOGO (CONFIGURAÇÃO DO TOPO)
+col_logo, col_titulo = st.columns([1, 4])
+with col_logo:
+    # Espaço reservado para o logotipo com visual moderno
+    st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
+with col_titulo:
+    st.markdown("<h2 style='margin:0; padding:0; color: #1E3A8A;'>Plano Preventivas Novavia Mineração</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='font-style: italic; color: #555; margin:0;'>Gestão de Ativos e Engenharia de Confiabilidade</p>", unsafe_allow_html=True)
+
+st.markdown("---")
 
 # BANCO DE DADOS FOCADO APENAS NO CAMINHÃO CA0024
 if 'frota' not in st.session_state:
@@ -37,8 +48,6 @@ planos_mestre_dados = [
 
 if 'historico' not in st.session_state:
     st.session_state.historico = []
-
-# LÓGICA DE DIAS ÚTEIS (PULA FIM DE SEMANA)
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if media_diaria <= 0: return None
     dias_uteis = int(np.ceil(horas_restantes / media_diaria))
@@ -46,25 +55,18 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-st.title("🛞 Controle de Contingência - Foco CA0024")
-st.warning("Controlando apenas o Caminhão Volvo VM 360 - 01")
-
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "📋 Planos Cadastrados (Mestre)", "👨‍🔧 Oficina / Lançamentos"])
 
 # ABA 1: PAINEL DE CONTROLE (MATEMÁTICA CORRIGIDA)
 with aba1:
     st.subheader("Situação dos Ciclos de Manutenção Preventiva")
     dados_painel = []
-    
     for ativo in st.session_state.frota:
         horas_alvo = ativo['ult_rev_horas'] + 600
         horas_restantes = horas_alvo - ativo['atual']
         data_final = calcular_previsao_dias(horas_restantes, ativo['media'])
-        
         status_geral = "🟢 OK"
-        if ativo['atual'] >= horas_alvo:
-            status_geral = "🔴 VENCIDA"
-            
+        if ativo['atual'] >= horas_alvo: status_geral = "🔴 VENCIDA"
         dados_painel.append({
             "ID / TAG": ativo['id'], "Equipamento": ativo['nome'], "Horímetro Atual": f"{ativo['atual']} hrs",
             "Última Revisão": f"{ativo['ult_rev_horas']} hrs ({ativo['ult_rev_data']})", "Próxima Meta": f"{horas_alvo} hrs",
@@ -72,13 +74,10 @@ with aba1:
         })
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
 
-    # BOTÃO EXPANSOR PARA TAREFAS E MATERIAIS DA PREVENTIVA 600H
     st.markdown("---")
     with st.expander("📋 Ver Escopo Técnico da Preventiva (Tarefas e Materiais)"):
         st.markdown("### 🛠️ Sequência 001 - Escopo Técnico Preventiva 600 Horas")
-        
         col_esq, col_dir = st.columns(2)
-        
         with col_esq:
             st.markdown("**📋 Lista de Tarefas (O que executar):**")
             st.write("1. Efetuar a troca do óleo lubrificante do motor.")
@@ -87,19 +86,10 @@ with aba1:
             st.write("4. Reapertar os coxins do motor e da transmissão.")
             st.write("5. Lubrificar totalmente o chassi, quinta roda e articulações com graxa.")
             st.write("6. Inspecionar lonas de freio, vazamentos em cubos e folgas de direção.")
-            
         with col_dir:
-            st.markdown("**📦 Materiais e Insumos Necessários:**")
-            
-            # Criando uma tabelinha limpa para os materiais
+            st.markdown("**📦 Materiais e Insumos:**")
             materiais = {
-                "Item / Componente": [
-                    "Óleo Lubrificante Motor 15W40 CI-4", 
-                    "Filtro de Óleo Lubrificante (Motor)", 
-                    "Filtro de Combustível Principal", 
-                    "Elemento do Filtro Separador de Água",
-                    "Graxa Extrema Pressão EP2 (Chassis)"
-                ],
+                "Item / Componente": ["Óleo Lubrificante Motor 15W40 CI-4", "Filtro de Óleo Lubrificante (Motor)", "Filtro de Combustível Principal", "Elemento do Filtro Separador de Água", "Graxa Extrema Pressão EP2 (Chassis)"],
                 "Quantidade": ["32 Litros", "2 Unidades", "1 Unidade", "1 Unidade", "2 Quilos"]
             }
             st.table(pd.DataFrame(materiais))
@@ -118,7 +108,7 @@ with aba3:
         enviar = st.form_submit_button("Salvar Registro")
         if enviar:
             for a in st.session_state.frota:
-                a['atual'] = Grid_horimetro if 'Grid_horimetro' in locals() else novo_horimetro
+                a['atual'] = novo_horimetro
                 if "001" in revisao_executada:
                     a['ult_rev_horas'] = novo_horimetro
                     a['ult_rev_data'] = datetime.date.today().strftime('%d/%m/%Y')
