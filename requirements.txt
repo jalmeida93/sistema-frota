@@ -1,0 +1,5 @@
+textstreamlit
+pandas
+fpdf
+openpyxl
+numpy
