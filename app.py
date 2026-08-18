@@ -1,10 +1,9 @@
-pythonimport streamlit as st
+import streamlit as st
 import pandas as pd
 import datetime
 import numpy as np
 import io
 from fpdf import FPDF
-import os
 
 # Configuração da página do site
 st.set_page_config(page_title="Contingência - Gestão de Frotas", layout="wide", page_icon="🚛")
@@ -34,7 +33,7 @@ if 'historico' not in st.session_state:
 # LÓGICA DE PROJEÇÃO PULANDO FINS DE SEMANA
 def calcular_data_revisao(atual, gatilho, media):
     if media <= 0:
-        return "Sem média de uso"
+        return "Sem média"
     restante = gatilho - atual
     if restante <= 0:
         return "VENCIDA"
@@ -48,15 +47,15 @@ def gerar_pdf_rm(ativo, pecas):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt="REQUISIÇÃO DE MANUTENÇÃO EMERGENCIAL (CONTINGÊNCIA PROTHEUS)", ln=1, align="C")
-    pdf.cell(200, 10, txt=f"Data de Emissão: {datetime.date.today().strftime('%d/%m/%Y')}", ln=2, align="C")
+    pdf.cell(200, 10, txt="REQUISICAO DE MANUTENCAO EMERGENCIAL (CONTINGENCIA)", ln=1, align="C")
+    pdf.cell(200, 10, txt=f"Data: {datetime.date.today().strftime('%d/%m/%Y')}", ln=2, align="C")
     pdf.ln(10)
-    pdf.cell(200, 10, txt=f"Equipamento / Ativo: {ativo['nome']} ({ativo['id']})", ln=1)
-    pdf.cell(200, 10, txt=f"Status de Medição: {ativo['atual']} de {ativo['gatilho']} {ativo['tipo']}", ln=1)
+    pdf.cell(200, 10, txt=f"Equipamento: {ativo['nome']} ({ativo['id']})", ln=1)
+    pdf.cell(200, 10, txt=f"Medicao: {ativo['atual']} de {ativo['gatilho']} {ativo['tipo']}", ln=1)
     pdf.ln(10)
     pdf.set_font("Arial", style="B", size=11)
-    pdf.cell(140, 10, "Lista de Materiais / Insumos para lançar no RM", border=1)
-    pdf.cell(40, 10, "Qtd Sugerida", border=1, ln=1)
+    pdf.cell(140, 10, "Insumos para lancar no RM", border=1)
+    pdf.cell(40, 10, "Qtd", border=1, ln=1)
     pdf.set_font("Arial", size=10)
     for p in pecas.split(", "):
         pdf.cell(140, 10, p, border=1)
@@ -67,16 +66,31 @@ def gerar_pdf_rm(ativo, pecas):
 st.title("🛞 Painel de Manutenção e Frota - Modo Contingência")
 st.warning("⚠️ Atenção: Sistema operando de forma isolada devido à falha de integração do Protheus SIGAMNT.")
 
-# ABAS DO SISTEMA
-aba1, aba2, aba3 = st.tabs(["📊 Painel de Controle (Alertas)", "👨‍🔧 Lançamento do Mecânico", "📁 Histórico e Exportação Protheus"])
+# GERADOR DE REQUISIÇÃO RM (NA BARRA LATERAL PARA EVITAR BUG DE TELA)
+st.sidebar.header("📄 Exportar Requisição RM")
+lista_ids = [a['id'] for a in st.session_state.frota]
+id_selecionado_rm = st.sidebar.selectbox("Selecione o ID para gerar PDF:", lista_ids)
 
-# ABA 1: PAINEL DE CONTROLE
+ativo_ref = next(item for item in st.session_state.frota if item["id"] == id_selecionado_rm)
+pdf_bytes = gerar_pdf_rm(ativo_ref, ativo_ref['pecas'])
+
+st.sidebar.download_button(
+    label=f"📥 Baixar PDF do {id_selecionado_rm}",
+    data=pdf_bytes,
+    file_name=f"Requisicao_RM_{id_selecionado_rm}.pdf",
+    mime="application/pdf"
+)
+
+# ABAS DO SISTEMA
+aba1, aba2, aba3 = st.tabs(["📊 Painel de Controle", "👨‍🔧 Lançamento do Mecânico", "📁 Histórico e Exportação Excel"])
+
+# ABA 1: PAINEL DE CONTROLE (Renderização limpa e segura)
 with aba1:
     st.subheader("Status Atual da Frota e Linha Amarela")
     
     tabela_visual = []
-    for idx, ativo in enumerate(st.session_state.frota):
-        status = "OK"
+    for ativo in st.session_state.frota:
+        status = "🟢 OK"
         if ativo['atual'] >= ativo['gatilho']:
             status = "🔴 VENCIDA"
         elif (ativo['gatilho'] - ativo['atual']) <= (ativo['media'] * 3):
@@ -88,40 +102,20 @@ with aba1:
             "ID": ativo['id'],
             "Equipamento": ativo['nome'],
             "Tipo": ativo['tipo'],
-            "Uso Atual": f"{ativo['atual']} {ativo['tipo']}",
-            "Gatilho Revisão": f"{ativo['gatilho']} {ativo['tipo']}",
+            "Uso Atual": ativo['atual'],
+            "Meta Próxima Preventiva": ativo['gatilho'],
             "Previsão de Parada": data_prevista,
-            "Status": status,
-            "Índice": idx
+            "Status": status
         })
         
     df_visual = pd.DataFrame(tabela_visual)
-    
-    # Exibição das linhas com botões dinâmicos
-    for _, row in df_visual.iterrows():
-        col1, col2, col3, col4, col5 = st.columns([1, 3, 2, 2, 2])
-        ativo_ref = st.session_state.frota[row['Índice']]
-        
-        col1.write(f"**{row['ID']}**")
-        col2.write(f"{row['Equipamento']} ({row['Status']})")
-        col3.write(f"Atual: {row['Uso Atual']} / Alvo: {row['Gatilho Revisão']}")
-        col4.write(f"📅 Previsto: {row['Previsão de Parada']}")
-        
-        # Botão para baixar o PDF de requisição para o RM
-        pdf_bytes = gerar_pdf_rm(ativo_ref, ativo_ref['pecas'])
-        col5.download_button(
-            label=f"📄 Gerar RM ({ativo_ref['id']})",
-            data=pdf_bytes,
-            file_name=f"Requisicao_RM_{ativo_ref['id']}.pdf",
-            mime="application/pdf",
-            key=f"btn_pdf_{ativo_ref['id']}"
-        )
+    st.dataframe(df_visual, use_container_width=True, hide_index=True)
 
 # ABA 2: LANÇAMENTO DO MECÂNICO
 with aba2:
     st.subheader("Registrar Medição Diária e Conclusão de OS")
     
-    with st.form("form_mecanico"):
+    with st.form("form_mecanico", clear_on_submit=True):
         lista_nomes = [f"{a['id']} - {a['nome']}" for a in st.session_state.frota]
         selecionado = st.selectbox("Escolha o Equipamento:", lista_nomes)
         id_sel = selecionado.split(" - ")[0]
@@ -131,8 +125,7 @@ with aba2:
         novo_valor = st.number_input("Digite o Horímetro ou KM Atual da Máquina:", min_value=0, step=1)
         
         st.markdown("---")
-        foto_os = st.file_uploader("📷 Tire foto da OS física preenchida/assinada:", type=["jpg", "jpeg", "png", "pdf"])
-        
+        foto_os = st.file_uploader("📷 Anexe a foto da OS física preenchida/assinada:", type=["jpg", "jpeg", "png", "pdf"])
         marcar_feita = st.checkbox("Esta OS foi executada por completo? (Zera o gatilho da preventiva)")
         
         enviar = st.form_submit_button("Salvar Registro de Campo")
@@ -142,11 +135,9 @@ with aba2:
                 if a['id'] == id_sel:
                     a['atual'] = novo_valor
                     if marcar_feita:
-                        # Se concluiu a revisão, joga o próximo alvo para frente (Ex: +250h ou +15000km)
                         incremento = 250 if a['tipo'] == "Horas" else 15000
                         a['gatilho'] = novo_valor + incremento
                     
-                    # Salva no histórico de registros
                     nome_foto = foto_os.name if foto_os is not None else "Não anexada"
                     st.session_state.historico.append({
                         "Data Registro": datetime.date.today().strftime('%d/%m/%Y'),
@@ -158,27 +149,26 @@ with aba2:
                         "Evidência Anexada": nome_foto,
                         "Preventiva Concluída": "Sim" if marcar_feita else "Apenas Medição"
                     })
-                    st.success(f"✔️ Registro salvo com sucesso para o ativo {a['id']}! Valores atualizados.")
-                    st.rerun()
+            st.success("✔️ Registro salvo com sucesso! Clique na aba 'Painel de Controle' para ver o status atualizado.")
 
 # ABA 3: HISTÓRICO E EXPORTAÇÃO
 with aba3:
     st.subheader("Histórico de Manutenções Realizadas na Crise")
-    st.write("Abaixo estão guardadas todas as ações da oficina. Quando o Protheus voltar, use o botão verde para baixar o Excel e atualizar o sistema da TOTVS.")
     
     if len(st.session_state.historico) == 0:
         st.info("Nenhum fechamento ou medição foi registrado por esta interface ainda.")
     else:
         df_hist = pd.DataFrame(st.session_state.historico)
-        st.dataframe(df_hist, use_container_width=True)
+        st.dataframe(df_hist, use_container_width=True, hide_index=True)
         
-        # Criação do arquivo Excel para exportação
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-            df_hist.to_excel(writer, index=False, sheet_name='Lançamentos_Contingência')
+            df_hist.to_excel(writer, index=False, sheet_name='Lançamentos')
             
         st.markdown("---")
         st.download_button(
             label="🟢 Baixar Histórico de OS em Excel (.xlsx)",
             data=buffer.getvalue(),
-            file_name=f"Conciliacao_Frotas_Para_Protheus_{datetime.date.today()}.x
+            file_name=f"Conciliacao_Para_Protheus_{datetime.date.today()}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
