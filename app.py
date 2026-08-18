@@ -17,26 +17,38 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DO CA0024 (SEQUÊNCIA 006 REMOVIDA)
-if 'frota_ca0024' not in st.session_state:
-    st.session_state.frota_ca0024 = {
-        "id": "CA0024",
-        "nome": "Volvo VM 360 - 01",
-        "atual": 3443,
-        "media_diaria": 10,
-        "sequencias": {
-            "001": {"nome": "600H/15.000KM/1A", "tipo": "Misto", "intervalo_h": 600, "ult_h": 3009, "ult_data": "13/06/2026"},
-            "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 2456, "ult_data": "03/03/2026"},
-            "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 1, "ult_data": "10/08/2024"},
-            "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/08/2024"},
-            "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3443, "ult_data": "11/08/2026"},
-            "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/08/2024"},
-            "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
-            "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
+# BANCO DE DADOS DETALHADO DA FROTA (CA0024 E CA0025 COM DADOS REAIS DO PROTHEUS)
+if 'banco_frota' not in st.session_state:
+    st.session_state.banco_frota = {
+        "CA0024": {
+            "id": "CA0024", "nome": "Volvo VM 360 - 01", "atual": 3443, "media_diaria": 10,
+            "sequencias": {
+                "001": {"nome": "600H/15.000KM/1A", "tipo": "Misto", "intervalo_h": 600, "ult_h": 3009, "ult_data": "13/06/2026"},
+                "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 2456, "ult_data": "03/03/2026"},
+                "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 1, "ult_data": "10/08/2024"},
+                "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/08/2024"},
+                "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3443, "ult_data": "11/08/2026"},
+                "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/08/2024"},
+                "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
+                "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
+            }
+        },
+        "CA0025": {
+            "id": "CA0025", "nome": "Volvo VM 360 - 02", "atual": 3823, "media_diaria": 10,
+            "sequencias": {
+                "001": {"nome": "600H/15.000KM/1A", "tipo": "Misto", "intervalo_h": 600, "ult_h": 3655, "ult_data": "25/07/2026"},
+                "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 3655, "ult_data": "25/07/2026"},
+                "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 3655, "ult_data": "25/07/2026"},
+                "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/08/2024"},
+                "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3823, "ult_data": "11/08/2026"},
+                "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/08/2024"},
+                "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
+                "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
+            }
         }
     }
 
-# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS (SEQUÊNCIAS 001 A 009)
+# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
@@ -47,28 +59,8 @@ escopos_preventivas = {
         "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["ÓLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANÇA VO24283117 CAM", "ÓLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
     },
     "003": {
-        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Substituir filtro da boia do tanque do ARLA"],
+        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
         "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
-    },
-    "004": {
-        "tarefas": ["ME0994-Ajuste nas unidades / válvulas injetoras do motor (Regulagem mecânica de cabeçote)"],
-        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MÃO DE OBRA ESPECIALIZADA MECÂNICO - FROTA"], "Qtd": ["0,50 H"]}
-    },
-    "005": {
-        "tarefas": ["ME1027-Realizar limpeza do evaporador do ar condicionado", "ME0724-Inspecionar luz de freio e sirene de ré", "ME1020-Verificar funcionamento da buzina", "ME0370-Inspecionar sistema de freio", "LU0069 / LU0077-Inspecionar nível de óleo do motor e arrefecimento", "LU0070-Inspecionar nível de óleo da direção hidráulica", "ME0887-Verificar nível do separador de água e drenar", "LU0050 / LU0052-Inspecionar filtro de ar e filtro da cabine", "EL0007-Inspecionar faróis e alarme de marcha ré", "ME0026-Conferir pressão e desgaste dos pneus"],
-        "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO E INSUFLAÇÃO / LIMPEZA"], "Qtd": ["1,00 AP"]}
-    },
-    "007": {
-        "tarefas": ["ME0991-Substituir correia de transmissão motriz", "LU0357-Substituir fluido do sistema da direção hidráulica", "LU0324-Substituir filtro de direção hidráulica"],
-        "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
-    },
-    "008": {
-        "tarefas": ["LU0503-Substituir sensor de oxigênio (Sonda Lambda do escapamento)"],
-        "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGÊNIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
-    },
-    "009": {
-        "tarefas": ["LU0358-Substituir líquido de arrefecimento completo (Aditivo Laranja)", "LU0342-Substituir filtro secador de ar (Pneumático APU)", "ME0992-Substituir esticador da correia motriz", "ME0993-Substituir polia intermediária da correia"],
-        "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHÃO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
     }
 }
 
@@ -82,29 +74,33 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos (Todas Sequências)", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
+# SELEÇÃO INDIVIDUAL DO VEÍCULO NO TOPO DA PÁGINA
+tag_selecionado = st.selectbox("🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
+ativo_atual = st.session_state.banco_frota[tag_selecionado]
+
+aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
 
 with aba1:
-    st.subheader(f"Situação dos Ciclos de Manutenção Preventiva - Ativo: {st.session_state.frota_ca0024['id']}")
-    st.markdown(f"**Contador Atual:** `{st.session_state.frota_ca0024['atual']} hrs` | **Ritmo:** `10 horas/dia útil` (Sáb/Dom desconsiderados)")
+    st.subheader(f"Situação dos Ciclos de Manutenção Preventiva - Ativo: {ativo_atual['id']}")
+    st.markdown(f"**Contador Atual:** `{ativo_atual['atual']} hrs` | **Ritmo:** `{ativo_atual['media_diaria']} horas/dia útil` (Sáb/Dom desconsiderados)")
     
     dados_painel = []
     hoje = datetime.date.today()
     
-    for seq_id, seq in st.session_state.frota_ca0024["sequencias"].items():
+    for seq_id, seq in ativo_atual["sequencias"].items():
         dt_ult_manut = datetime.datetime.strptime(seq["ult_data"], "%d/%m/%Y").date()
         meta_exibicao = "-"
         data_alvo_final = None
         status = "🟢 OK"
         
         if seq["tipo"] == "Horas" or seq["tipo"] == "Misto":
-            horas_desde_ult = st.session_state.frota_ca0024['atual'] - seq["ult_h"]
+            horas_desde_ult = ativo_atual['atual'] - seq["ult_h"]
             multiplicador = int(np.floor(horas_desde_ult / seq["intervalo_h"])) + 1
             horas_alvo = seq["ult_h"] + (seq["intervalo_h"] * multiplicador)
             meta_exibicao = f"{horas_alvo} hrs"
-            horas_restantes = horas_alvo - st.session_state.frota_ca0024['atual']
-            data_alvo_final = calcular_previsao_dias(horas_restantes, st.session_state.frota_ca0024['media_diaria'])
-            if st.session_state.frota_ca0024['atual'] >= horas_alvo: 
+            horas_restantes = horas_alvo - ativo_atual['atual']
+            data_alvo_final = calcular_previsao_dias(horas_restantes, ativo_atual['media_diaria'])
+            if ativo_atual['atual'] >= horas_alvo: 
                 status = "🔴 VENCIDA (Horas)"
                 data_alvo_final = "IMEDIATO"
                 
@@ -139,10 +135,8 @@ with aba1:
             "Seq": seq_id, "Descrição da Frequência Mestre": seq["nome"], "Última Execução": f"{seq['ult_h']} hrs ({seq['ult_data']})",
             "Próxima Meta": meta_exibicao, "Data Alvo": texto_data_alvo, "Status": status
         })
-        
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
 
-    # DINÂMICA DE CONSULTA TOTAL DE ESCOPOS DA NOVAVIA MINERAÇÃO
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas e Insumos Faturados")
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", list(escopos_preventivas.keys()))
@@ -160,16 +154,16 @@ with aba1:
 with aba2:
     st.subheader("Registrar Apontamento de Campo")
     with st.form("form_oficina"):
-        novo_h = st.number_input("Digite o Horímetro Atualizado do CA0024:", min_value=0, value=st.session_state.frota_ca0024["atual"])
-        seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in st.session_state.frota_ca0024["sequencias"].items()])
+        novo_h = st.number_input(f"Digite o Horímetro Atualizado do {ativo_atual['id']}:", min_value=0, value=ativo_atual["atual"])
+        seq_executada = st.selectbox("Alguma sequência foi executada por completo?", ["Nenhuma"] + [f"{k} - {v['nome']}" for k, v in ativo_atual["sequencias"].items()])
         enviar = st.form_submit_button("Lançar na Oficina")
         if enviar:
-            st.session_state.frota_ca0024["atual"] = novo_h
+            st.session_state.banco_frota[tag_selecionado]["atual"] = novo_h
             if "Nenhuma" not in seq_executada:
                 cod_seq = seq_executada.split(" - ")[0]
-                st.session_state.frota_ca0024["sequencias"][cod_seq]["ult_h"] = novo_h
-                st.session_state.frota_ca0024["sequencias"][cod_seq]["ult_data"] = datetime.date.today().strftime('%d/%m/%Y')
-                st.session_state.historico.append({"Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'), "Sequência Baixada": seq_executada, "Horímetro no Fechamento": novo_h})
+                st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_h"] = novo_h
+                st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = datetime.date.today().strftime('%d/%m/%Y')
+                st.session_state.historico.append({"Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'), "Ativo": tag_selecionado, "Sequência Baixada": seq_executada, "Horímetro no Fechamento": novo_h})
             st.success("✔️ Registro gravado com sucesso! Prazos recalculados.")
             st.rerun()
 
