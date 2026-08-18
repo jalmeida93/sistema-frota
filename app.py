@@ -187,6 +187,19 @@ with aba2:
         num_rm = st.text_input("Nº da Requisição gerada no RM:", placeholder="Ex: REQ-10452")
         novo_horimetro = st.number_input("Digite o Horímetro Atual da Máquina:", min_value=0, step=1)
         
+       ABA 2: FECHAMENTO DE OS (OFICINA)
+with aba2:
+    st.subheader("Registrar Medição Diária e Execução de Revisões")
+    
+    with st.form("form_mecanico_avancado", clear_on_submit=True):
+        lista_nomes = [f"{a['id']} - {a['nome']}" for a in st.session_state.frota]
+        selecionado = st.selectbox("Escolha o Equipamento:", lista_nomes)
+        id_sel = selecionado.split(" - ")[0]
+        
+        num_os_manual = st.text_input("Nº da OS em Papel (Manual):", placeholder="Ex: OS-MNT-2026")
+        num_rm = st.text_input("Nº da Requisição gerada no RM:", placeholder="Ex: REQ-10452")
+        novo_horimetro = st.number_input("Digite o Horímetro Atual da Máquina:", min_value=0, step=1)
+        
         st.markdown("---")
         st.markdown("**Se alguma revisão foi executada por completo, selecione abaixo para resetar os ciclos:**")
         revisao_executada = st.selectbox("Alguma preventiva foi realizada?", ["Nenhuma - Apenas atualizar horímetro", "Concluída PM 250h", "Concluída PM 500h", "Concluída PM 1000h", "Concluída PM 2000h", "Concluída Revisão Anual por Tempo"])
@@ -208,3 +221,34 @@ with aba2:
                         
                     nome_foto = foto_os.name if foto_os is not None else "Não anexada"
                     st.session_state.historico.append({
+                        "Data Registro": datetime.date.today().strftime('%d/%m/%Y'),
+                        "ID / TAG": a['id'],
+                        "Equipamento": a['nome'],
+                        "Horímetro Lançado": f"{novo_horimetro} hrs",
+                        "Nº OS Papel": num_os_manual,
+                        "Nº Doc RM": num_rm,
+                        "Ação Realizada": revisao_executada,
+                        "Evidência": nome_foto
+                    })
+            st.success("✔️ Dados de oficina processados! Confira a aba 'Painel Multigatilhos' para ver as novas projeções.")
+
+# ABA 3: HISTÓRICO GERAL
+with aba3:
+    st.subheader("Histórico de Lançamentos para Conciliação no Protheus")
+    if len(st.session_state.historico) == 0:
+        st.info("Nenhum lançamento foi registrado por essa interface ainda.")
+    else:
+        df_hist = pd.DataFrame(st.session_state.historico)
+        st.dataframe(df_hist, use_container_width=True, hide_index=True)
+        
+        buffer = io.BytesIO()
+        with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+            df_hist.to_excel(writer, index=False, sheet_name='Modo_Crise_MNT')
+            
+        st.markdown("---")
+        st.download_button(
+            label="🟢 Baixar Lançamentos Acumulados em Excel (.xlsx)",
+            data=buffer.getvalue(),
+            file_name=f"Fechamento_Contingencia_MNT_{datetime.date.today()}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
