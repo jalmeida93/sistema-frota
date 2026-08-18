@@ -17,7 +17,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DO CA0024 CONFORME O RELATÓRIO DO PROTHEUS
+# BANCO DE DADOS DETALHADO DO CA0024 (SEQUÊNCIA 006 REMOVIDA)
 if 'frota_ca0024' not in st.session_state:
     st.session_state.frota_ca0024 = {
         "id": "CA0024",
@@ -30,26 +30,45 @@ if 'frota_ca0024' not in st.session_state:
             "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 1, "ult_data": "10/08/2024"},
             "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/08/2024"},
             "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3443, "ult_data": "11/08/2026"},
-            "006": {"nome": "3M (Trimestral)", "tipo": "Tempo", "intervalo_dias": 90, "ult_h": 3443, "ult_data": "18/05/2026"},
             "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/08/2024"},
             "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
             "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
         }
     }
 
-# DICIONÁRIO DE TAREFAS E MATERIAIS PARA CONSULTA DETALHADA
+# DICIONÁRIO COMPLETO COM AS TAREFAS E PRODUTOS DO PROTHEUS (SEQUÊNCIAS 001 A 009)
 escopos_preventivas = {
     "001": {
-        "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo", "LU0322-Filtro combustível", "LU0348-Filtro separador", "LU0319-Filtro ar primário", "LU0474-Filtro ar condicionado", "LU0153/LU0416/LU0495/LU0499-Lubrificação geral e eixos"],
-        "materiais": {"Código": ["27241", "27179", "27180", "27181", "27182", "27893", "16657"], "Descrição": ["ÓLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "FILTRO ÓLEO VO24063074", "FILTRO COMBUSTÍVEL VO24275477", "FILTRO SEPARADOR VO24275463", "FILTRO AR VO21436535", "FILTRO AR CONDICIONADO VO85134455", "GRAXA MINERAL NLGI 2 EP"], "Qtd": ["24 L", "1 PC", "1 PC", "1 PC", "1 PC", "1 PC", "1,7 KG"]}
+        "tarefas": ["LU0389-Substituir óleo motor", "LU0329-Substituir filtro óleo do motor", "LU0322-Substituir filtro combustível", "LU0348-Substituir filtro separador de água", "LU0319-Substituir filtro de ar primário", "LU0153 / LU0416-Lubrificação geral do chassi e suspensão dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipólen do ar condicionado"],
+        "materiais": {"Código": ["27241", "27179", "27179", "27180", "27181", "27182", "27893", "16657"], "Descrição": ["ÓLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "TRAPO PARA LIMPEZA", "FILTRO ÓLEO VO24063074 CAMINHÃO VOLVO", "FILTRO COMBUSTÍVEL VO24275477 CAMINHÃO", "FILTRO VO24275463 CAMINHÃO VOLVO VM 36", "FILTRO AR VO21436535 CAMINHÃO VOLVO V", "FILTRO AR CONDICIONADO VO85134455 CAMI", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 EP"], "Qtd": ["24,00 L", "3,00 KG", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,70 KG"]}
     },
     "002": {
-        "tarefas": ["LU0303-Substituir óleo câmbio", "LU0341-Filtro óleo transmissão/dif", "LU0386-Óleo eixo dianteiro", "LU0387-Óleo eixo traseiro", "LU0562/0563-Óleo cubos diant", "LU0564/0565-Óleo cubos tras"],
-        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["ÓLEO SAE 50 TO-4 (Câmbio)", "FILTRO CAIXA DE MUDANÇA VO24283117", "ÓLEO DIFERENCIAL 85W140 VO85131721"], "Qtd": ["18 L", "1 PC", "43,5 L"]}
+        "tarefas": ["LU0303-Substituir óleo do câmbio e limpeza do respiro", "LU0341-Substituir filtro do óleo de transmissão e diferencial", "LU0386-Substituir óleo do eixo dianteiro", "LU0387-Substituir óleo do eixo traseiro", "LU0562 / LU0563-Substituir óleo do cubo dianteiro (Dir/Esq)", "LU0564 / LU0565-Substituir óleo do cubo traseiro (Dir/Esq)"],
+        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["ÓLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANÇA VO24283117 CAM", "ÓLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
     },
     "003": {
-        "tarefas": ["LU0501-Substituir filtro DPF", "LU0567-Filtro tanque ARLA", "LU0568-Filtro boia tanque ARLA"],
-        "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170", "FILTRO BOIA TANQUE VO24111100", "ELEMENTO FILTRO PARTICULADOS DPF"], "Qtd": ["1 KIT", "1 PC", "1 PC"]}
+        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Substituir filtro da boia do tanque do ARLA"],
+        "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHÃO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
+    },
+    "004": {
+        "tarefas": ["ME0994-Ajuste nas unidades / válvulas injetoras do motor (Regulagem mecânica de cabeçote)"],
+        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MÃO DE OBRA ESPECIALIZADA MECÂNICO - FROTA"], "Qtd": ["0,50 H"]}
+    },
+    "005": {
+        "tarefas": ["ME1027-Realizar limpeza do evaporador do ar condicionado", "ME0724-Inspecionar luz de freio e sirene de ré", "ME1020-Verificar funcionamento da buzina", "ME0370-Inspecionar sistema de freio", "LU0069 / LU0077-Inspecionar nível de óleo do motor e arrefecimento", "LU0070-Inspecionar nível de óleo da direção hidráulica", "ME0887-Verificar nível do separador de água e drenar", "LU0050 / LU0052-Inspecionar filtro de ar e filtro da cabine", "EL0007-Inspecionar faróis e alarme de marcha ré", "ME0026-Conferir pressão e desgaste dos pneus"],
+        "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO E INSUFLAÇÃO / LIMPEZA"], "Qtd": ["1,00 AP"]}
+    },
+    "007": {
+        "tarefas": ["ME0991-Substituir correia de transmissão motriz", "LU0357-Substituir fluido do sistema da direção hidráulica", "LU0324-Substituir filtro de direção hidráulica"],
+        "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "ÓLEO HIDRÁULICO DIREÇÃO/TRANSMISSÃO TE", "FILTRO DIREÇÃO HIDRÁULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
+    },
+    "008": {
+        "tarefas": ["LU0503-Substituir sensor de oxigênio (Sonda Lambda do escapamento)"],
+        "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGÊNIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
+    },
+    "009": {
+        "tarefas": ["LU0358-Substituir líquido de arrefecimento completo (Aditivo Laranja)", "LU0342-Substituir filtro secador de ar (Pneumático APU)", "ME0992-Substituir esticador da correia motriz", "ME0993-Substituir polia intermediária da correia"],
+        "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHÃO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
     }
 }
 
@@ -74,26 +93,21 @@ with aba1:
     
     for seq_id, seq in st.session_state.frota_ca0024["sequencias"].items():
         dt_ult_manut = datetime.datetime.strptime(seq["ult_data"], "%d/%m/%Y").date()
-        
         meta_exibicao = "-"
         data_alvo_final = None
         status = "🟢 OK"
         
-        # 1. CÁLCULO PELO GATILHO DE HORAS
         if seq["tipo"] == "Horas" or seq["tipo"] == "Misto":
             horas_desde_ult = st.session_state.frota_ca0024['atual'] - seq["ult_h"]
             multiplicador = int(np.floor(horas_desde_ult / seq["intervalo_h"])) + 1
             horas_alvo = seq["ult_h"] + (seq["intervalo_h"] * multiplicador)
             meta_exibicao = f"{horas_alvo} hrs"
-            
             horas_restantes = horas_alvo - st.session_state.frota_ca0024['atual']
             data_alvo_final = calcular_previsao_dias(horas_restantes, st.session_state.frota_ca0024['media_diaria'])
-            
             if st.session_state.frota_ca0024['atual'] >= horas_alvo: 
                 status = "🔴 VENCIDA (Horas)"
                 data_alvo_final = "IMEDIATO"
                 
-        # 2. CÁLCULO PELO GATILHO DE TEMPO (CORREÇÃO DO CALENDÁRIO 2026/2027)
         if seq["tipo"] == "Tempo" or seq["tipo"] == "Misto":
             intervalo_dias = seq["intervalo_dias"] if "intervalo_dias" in seq else 365
             data_limite_tempo = dt_ult_manut + datetime.timedelta(days=intervalo_dias)
@@ -107,17 +121,14 @@ with aba1:
                     data_util = np.busday_offset(data_limite_tempo, 0, roll='forward')
                     data_alvo_final = pd.to_datetime(data_util).date()
             else:
-                # Regra Avançada Mista: "O que ocorrer primeiro"
                 if hoje >= data_limite_tempo:
                     status = "🔴 VENCIDA (Tempo)"
                     data_alvo_final = "IMEDIATO"
                 elif data_alvo_final and isinstance(data_alvo_final, datetime.date):
                     if data_alvo_final > data_limite_tempo:
-                        # Vence por tempo antes das horas estourarem
                         data_util = np.busday_offset(data_limite_tempo, 0, roll='forward')
                         data_alvo_final = pd.to_datetime(data_util).date()
 
-        # Formata o texto final da Data Alvo na tabela
         texto_data_alvo = "IMEDIATO"
         if data_alvo_final != "IMEDIATO" and data_alvo_final is not None:
             texto_data_alvo = data_alvo_final.strftime('%d/%m/%Y') if isinstance(data_alvo_final, datetime.date) else str(data_alvo_final)
@@ -125,27 +136,24 @@ with aba1:
             texto_data_alvo = "-"
 
         dados_painel.append({
-            "Seq": seq_id,
-            "Descrição da Frequência Mestre": seq["nome"],
-            "Última Execução": f"{seq['ult_h']} hrs ({seq['ult_data']})",
-            "Próxima Meta": meta_exibicao,
-            "Data Alvo": texto_data_alvo,
-            "Status": status
+            "Seq": seq_id, "Descrição da Frequência Mestre": seq["nome"], "Última Execução": f"{seq['ult_h']} hrs ({seq['ult_data']})",
+            "Próxima Meta": meta_exibicao, "Data Alvo": texto_data_alvo, "Status": status
         })
         
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
 
+    # DINÂMICA DE CONSULTA TOTAL DE ESCOPOS DA NOVAVIA MINERAÇÃO
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas e Insumos Faturados")
-    seq_sel = st.selectbox("Selecione uma sequência para abrir o espelho de requisição do Protheus/RM:", ["001", "002", "003"])
+    seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", list(escopos_preventivas.keys()))
     if seq_sel in escopos_preventivas:
         escopo = escopos_preventivas[seq_sel]
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("**📋 Lista de Tarefas Mecânicas:**")
+            st.markdown(f"**📋 Lista de Tarefas Mecânicas (Sequência {seq_sel}):**")
             for t in escopo["tarefas"]: st.write(t)
         with col2:
-            st.markdown("**📦 Código de Produtos e Consumo Real:**")
+            st.markdown(f"**📦 Código de Produtos e Consumo Real (Espelho RM):**")
             st.table(pd.DataFrame(escopo["materiais"]))
 
 # ABA 2: ENTRADA DE DADOS DA OFICINA
