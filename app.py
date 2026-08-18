@@ -7,8 +7,8 @@ from fpdf import FPDF
 
 st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
 
-# 1. IDENTIDADE VISUAL OFICIAL NOVAVIA MINERAÇÃO
-col_logo, col_titulo = st.columns()
+# 1. IDENTIDADE VISUAL OFICIAL NOVAVIA MINERAÇÃO (CORRIGIDO)
+col_logo, col_titulo = st.columns([1, 6]) # Define proporção exata para corrigir o erro TypeError
 with col_logo:
     st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
 with col_titulo:
@@ -136,6 +136,9 @@ escopos_preventivas = {
         }
     }
 }
+
+if 'historico' not in st.session_state:
+    st.session_state.historico = []
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if media_diaria <= 0: return None
     dias_uteis = int(np.ceil(horas_restantes / media_diaria))
@@ -192,10 +195,10 @@ with aba2:
         enviar = st.form_submit_button("Salvar Registro")
         if enviar:
             for a in st.session_state.frota:
-                a['atual'] = novo_horimetro
-                if "Nenhuma" not in revisao_executada:
-                    a['ult_rev_horas'] = novo_horimetro
-                    a['ult_rev_data'] = datetime.date.today().strftime('%d/%m/%Y')
+                if a['id'] == id_sel[0]: # Correção técnica do formulário
+                    a['atual'] = novo_horimetro
+                    if "Nenhuma" not in revisao_executada:
+                        a['ult_rev_horas'] = novo_horimetro
+                        a['ult_rev_data'] = datetime.date.today().strftime('%d/%m/%Y')
             st.success("✔️ Registro salvo com sucesso!")
             st.rerun()
-
