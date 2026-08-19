@@ -7,7 +7,7 @@ from fpdf import FPDF
 
 st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
 
-# CORE DE INTELIGÊNCIA MATEMÁTICA DA NOVAVIA MINERAÇÃO
+# CORE DE INTELIGÊNCIA MATEMÁTICA E ENGENHARIA DE CONFIABILIDADE
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if horas_restantes <= 0: return None
     if media_diaria <= 0: return None
@@ -16,7 +16,7 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-# 1. IDENTIDADE VISUAL OFICIAL
+# 1. IDENTIDADE VISUAL OFICIAL NOVAVIA MINERAÇÃO
 col_logo, col_titulo = st.columns(2)
 with col_logo:
     st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
@@ -26,7 +26,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS OFICIAL HISTÓRICO EXTRAÍDO DO PROTHEUS
+# BANCO DE DADOS OFICIAL HISTÓRICO INTEGRAL DOS 4 CAMINHÕES (PROTHEUS)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0016": {
@@ -85,7 +85,7 @@ if 'banco_frota' not in st.session_state:
             }
         }
     }
-# ESCOPOS TÉCNICOS SEPARADOS RIGOROSAMENTE POR MONTADORA/MODELO
+# ESCOPOS TÉCNICOS SEPARADOS E CADASTRADOS INTEGRALMENTE (TODAS AS SEQUÊNCIAS GRAVADAS)
 escopos_volvo = {
     "001": {
         "tarefas": ["LU0389-Substituir oleo motor", "LU0329-Substituir filtro oleo do motor", "LU0322-Substituir filtro combustivel", "LU0348-Substituir filtro separador de agua", "LU0319-Substituir filtro de ar primario", "LU0474-Substituir o filtro antipolen do ar condicionado", "LU0153 / LU0416 / LU0495 / LU0499-Lubrificacao geral e eixos came"],
@@ -108,24 +108,22 @@ escopos_volvo = {
 
 escopos_iveco = {
     "001": {
-        "tarefas": ["LU0389-Substituir oleo do motor (15W40 API CI-4)", "LU0329-Substituir filtro de oleo do motor", "LU0319-Substituir filtro de ar primario", "LU0321-Substituir filtro de ar secundario", "LU0322-Substituir filtro de combustivel (Duplo)", "LU0348-Substituir filtro separador de agua", "LU0153-Lubrificacao geral do chassi (Graxa NLGI 3 PE)"],
-        "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24070", "16659"], "Descrição": ["OLEO MINERAL SAE 15W40 API CI-4", "FILTRO OLEO IVECO NEXPRO", "FILTRO AR PRIMARIO IVECO NEXPRO", "ELEMENTO FILTRANTE AR SECUNDARIO", "FILTRO COMBUSTIVEL IVECO NEXPRO", "FILTRO SEPARADOR AGUA IVECO NEXPRO", "GRAXA MINERAL SABAO DE LITIO NLGI 3"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "2,00 PC", "1,00 PC", "0,50 KG"]}
+        "tarefas": ["1. LU0389 - Substituir oleo do motor", "2. LU0329 - Substituir filtro de oleo do motor", "3. LU0319 - Substituir filtro de ar primario", "4. LU0321 - Substituir filtro de ar secundario", "5. LU0322 - Substituir filtro de combustivel (Duplo)", "6. LU0348 - Substituir filtro separador de agua", "7. LU0153 - Lubrificacao geral do chassi e suspensao dianteira", "8. LU0416 - Lubrificacao da suspensao traseira e chassi", "9. LU0495 - Engraxar alavanca de ajuste do eixo came", "10. LU0499 - Engraxar pinos mestres da manga de eixo", "11. ME0190 - Inspecionar folgas na caixa de direcao", "12. ME0103 - Inspecionar articulacoes e barras de direcao", "13. ME0087 - Inspecionar cruzetas e rolamento do cardan", "14. ME0485 - Verificar funcionamento de farois e buzina", "15. ME0146 - Conferir aperto das porcas das rodas", "16. ME0026 - Verificar pressao e desgaste nos pneus", "17. ME0051 - Inspecionar espessura de lonas de freio", "18. ME0887 - Drenar reservatorios de ar comprimido", "19. LU0069 - Verificar nivel do liquido de arrefecimento"],
+        "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24070", "16659"], "Descrição": ["OLEO MINERAL SAE 15W40 API CI-4", "FILTRO OLEO IVECO NEXPRO", "FILTRO AR PRIMARIO IVECO NEXPRO", "ELEMENTO FILTRANTE AR SECUNDARIO", "FILTRO COMBUSTIVEL IVECO NEXPRO", "FILTRO SEPARADOR AGUA IVECO NEXPRO", "GRAXA MINERAL SABAO DE LITIO NLGI 3"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "2,00 PC", "1,00 PC", "1,50 KG"]}
     },
     "002": {
-        "tarefas": ["ME0190-Inspecionar caixa de direcao", "ME0103-Inspecionar barras e coluna de direcao", "ME0087-Inspecionar cruzetas da arvore de transmissao", "ME0485-Regulagem de farois e lanternas", "ME0146-Aperto das porcas das rodas"],
-        "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICA"], "Qtd": ["0,50 H"]}
+        "tarefas": ["1. Executa todas as 19 etapas basicas da Sequencia 001", "2. LU0303 - Substituir oleo da caixa de mudanças (Cambio)", "3. LU0341 - Substituir filtro da transmissão"],
+        "materiais": {"Código": ["02697", "FIL-04"], "Descrição": ["OLEO MINERAL SAE 40 API CF", "FILTRO DA TRANSMISSAO IVECO"], "Qtd": ["15,00 L", "1,00 PC"]}
     },
     "003": {
-        "tarefas": ["ME0506-Substituir correia dos comandos auxiliares Poly-V", "ME0191-Inspecionar suspensao do motor", "LU0303-Substituir oleo do cambio (SAE 40)", "LU0384-Substituir oleo do differential (SAE 85W140)", "LU0396-Substituir oleo dos cubos de roda dianteiros"],
-        "materiais": {"Código": ["08892", "02697", "07105"], "Descrição": ["CORREIA POLY V IVECO (4898546)", "OLEO MINERAL SAE 40 API CF", "OLEO MINERAL SAE 85W140 API GL-5"], "Qtd": ["1,00 PC", "15,00 L", "22,70 L"]}
+        "tarefas": ["1. Executa todas as 19 etapas basicas da Sequencia 001", "2. LU0387 - Substituir oleo do eixo diferencial traseiro"],
+        "materiais": {"Código": ["07105"], "Descrição": ["OLEO MINERAL SAE 85W140 API GL-5"], "Qtd": ["22,70 L"]}
     },
-    "004": { "tarefas": ["ME0210-Revisao de torque estrutural e fixacoes de cabecote"], "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA AJUSTE DE VALVULAS IVECO"], "Qtd": ["1,00 H"]} },
-    "005": { "tarefas": ["ME1027-Higienizacao do evaporador do ar condicionado"], "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO E HIGIENIZACAO IVECO"], "Qtd": ["1,00 AP"]} },
-    "006": { "tarefas": ["LU0502-Substituir tampa do reservatorio hidraulico da embreagem"], "materiais": {"Código": ["TAM-01"], "Descrição": ["TAMPA COMPLETA RESERVATORIO EMBREAGEM"], "Qtd": ["1,00 PC"]} },
-    "007": { "tarefas": ["ME0724-Inspecionar itens de seguranca e luzes operacionais de mina"], "materiais": {"Código": ["INSP-SEG"], "Descrição": ["INSPECAO DE CHECKLIST OBRIGATORIO SEMANAL"], "Qtd": ["1,00 AP"]} }
+    "004": { "tarefas": ["ME0210 - Revisao estrutural anual, reaperto estrutural e torque de cabecote"], "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA REAPARTO E VALVULAS IVECO"], "Qtd": ["1,00 H"]} },
+    "005": { "tarefas": ["ME1027 - Limpeza profunda e higienizacao do evaporador do ar condicionado"], "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE HIGIENIZACAO DE CABINE IVECO"], "Qtd": ["1,00 AP"]} },
+    "006": { "tarefas": ["LU0502 - Substituir tampa do reservatorio hidraulico da embreagem assistida"], "materiais": {"Código": ["TAM-01"], "Descrição": ["TAMPA RESERVATORIO EMBREAGEM COMPLETA"], "Qtd": ["1,00 PC"]} },
+    "007": { "tarefas": ["ME0724 - Checklist semanal obrigatorio de seguranca e luzes operacionais de mina"], "materiais": {"Código": ["INSP-SEG"], "Descrição": ["MATERIAIS DE APOIO / INSPECAO DE CAMPO VISUAL"], "Qtd": ["1,00 AP"]} }
 }
-
-if 'historico' not in st.session_state: st.session_state.historico = []
 
 def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
     pdf = FPDF()
@@ -185,8 +183,6 @@ with col_sel1:
     ativo_atual = st.session_state.banco_frota[tag_selecionado]
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
-
-# Sincroniza dinamicamente a matriz técnica com base no TAG
 escopo_ativo = escopos_iveco if tag_selecionado == "CA0016" else escopos_volvo
 
 with aba1:
@@ -225,6 +221,7 @@ with aba1:
 
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas")
+    # PEGA DINAMICAMENTE TODAS AS SEQUÊNCIAS DO VEÍCULO SELECIONADO (MANTÉM TODAS GRAVADAS)
     listagem_menu_dinamico = list(ativo_atual["sequencias"].keys())
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", listagem_menu_dinamico)
     if seq_sel in escopo_ativo:
