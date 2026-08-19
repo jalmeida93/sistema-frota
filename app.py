@@ -17,7 +17,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS ATUALIZADO RIGOROSAMENTE CONFORME RELATÓRIO DO IVECO CA0016
+# BANCO DE DADOS DETALHADO DA FROTA (IVECO CA0016 INTEGRADO COM SUAS 7 SEQUÊNCIAS REAIS)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0016": {
@@ -72,7 +72,7 @@ if 'banco_frota' not in st.session_state:
             }
         }
     }
-# DICIONÁRIO COMPLETO ADAPTADO COM OS CÓDIGOS DE INSUMOS DO IVECO EUROCARGO
+# DICIONÁRIO COMPLETO COM OS ESCOPOS DO IVECO (001 A 003) E MATRIZ GERAL VOLVO
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir oleo do motor (15W40 API CI-4)", "LU0329-Substituir filtro de oleo do motor", "LU0319-Substituir filtro de ar primario", "LU0321-Substituir filtro de ar secundario", "LU0322-Substituir filtro de combustivel (Duplo)", "LU0348-Substituir filtro separador de agua", "LU0153-Lubrificacao geral do chassi (Graxa NLGI 3 PE)"],
@@ -83,7 +83,7 @@ escopos_preventivas = {
         "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICA"], "Qtd": ["0,50 H"]}
     },
     "003": {
-        "tarefas": ["ME0506-Substituir correia dos comandos auxiliares Poly-V", "ME0191-Inspecionar suspensao do motor", "LU0303-Substituir oleo do cambio (SAE 40)", "LU0384-Substituir oleo do diferencial (SAE 85W140)", "LU0396-Substituir oleo dos cubos de roda dianteiros"],
+        "tarefas": ["ME0506-Substituir correia dos comandos auxiliares Poly-V", "ME0191-Inspecionar suspensao do motor", "LU0303-Substituir oleo do cambio (SAE 40)", "LU0384-Substituir oleo do differential (SAE 85W140)", "LU0396-Substituir oleo dos cubos de roda dianteiros"],
         "materiais": {"Código": ["08892", "02697", "07105"], "Descrição": ["CORREIA POLY V IVECO (4898546)", "OLEO MINERAL SAE 40 API CF", "OLEO MINERAL SAE 85W140 API GL-5"], "Qtd": ["1,00 PC", "15,00 L", "22,70 L"]}
     }
 }
@@ -118,7 +118,7 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
         pdf.cell(32, 6, st_l, border=1, ln=1)
     pdf.ln(10)
     pdf.set_font("Arial", style="B", size=12)
-    pdf.cell(200, 10, txt="DETALHAMENTO DE TAREFAS E MATERIAIS POR SEQUENCIA ACTIVAS", ln=1)
+    pdf.cell(200, 10, txt="DETALHAMENTO DE TAREFAS E MATERIAIS POR SEQUENCIA", ln=1)
     pdf.line(10, pdf.get_y(), 200, pdf.get_y())
     pdf.ln(4)
     for k, escopo in escopos.items():
@@ -142,6 +142,14 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
             pdf.cell(25, 5, str(mats["Qtd"][i]), border=1, ln=1)
         pdf.ln(6)
     return pdf.output(dest="S").encode("latin-1", errors="ignore")
+def calcular_previsao_dias(horas_restantes, media_diaria):
+    if horas_restantes <= 0: return None
+    if media_diaria <= 0: return None
+    dias_uteis = int(np.ceil(horas_restantes / media_diaria))
+    hoje = datetime.date.today()
+    data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
+    return pd.to_datetime(data_futura).date()
+
 col_sel1, col_sel2 = st.columns(2)
 with col_sel1:
     tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
@@ -198,15 +206,12 @@ with aba1:
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
     with col_sel2:
         st.markdown("<p style='margin-bottom:5px; font-weight:bold;'>📄 Gerar Relatório Completo do Ativo</p>", unsafe_allow_html=True)
-        # Proteção para o Iveco focar nas sequências ativas dele no PDF
-        escopo_pdf = escopos_preventivas if tag_selecionado == "CA0016" else escopos_preventivas
-        pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopo_pdf)
+        pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopos_preventivas)
         st.download_button(label="📥 Baixar PDF Operacional", data=pdf_bytes, file_name=f"Relatorio_{tag_selecionado}.pdf", mime="application/pdf", use_container_width=True)
 
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas e Insumos Faturados")
-    # Limita as opções do menu ao que está de fato preenchido para o Iveco
-    chaves_menu = ["001", "002", "003"] if tag_selecionado == "CA0016" else list(escopos_preventivas.keys())
+    chaves_menu = ["001", "002", "003"] if tag_selecionado == "CA0016" else ["001", "002", "003"]
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", chaves_menu)
     if seq_sel in escopos_preventivas:
         escopo = escopos_preventivas[seq_sel]
@@ -238,7 +243,7 @@ with aba2:
             texto_acao = "Apenas Atualização de Horímetro"
             dt_registro_final = data_leitura.strftime('%d/%m/%Y')
             if "Nenhuma" not in seq_executada:
-                cod_seq = seq_executada.split(" - ")[0]
+                cod_seq = seq_executada.split(" - ")
                 dt_registro_final = data_execucao_preventiva.strftime('%d/%m/%Y')
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_h"] = novo_h
                 st.session_state.banco_frota[tag_selecionado]["sequencias"][cod_seq]["ult_data"] = dt_registro_final
