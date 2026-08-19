@@ -24,6 +24,7 @@ if 'banco_frota' not in st.session_state:
                 "003": {"nome": "900H/60.000KM", "tipo": "Horas", "intervalo_h": 750, "ult_h": 11286, "ult_data": "29/11/2025"},
                 "004": {"nome": "1A (ANUAL)", "tipo": "Tempo", "intervalo_dias": 365, "ult_h": 11591, "ult_data": "30/05/2026"},
                 "005": {"nome": "2A (BIENAL)", "tipo": "Tempo", "intervalo_dias": 730, "ult_h": 11591, "ult_data": "26/05/2025"},
+                "006": {"nome": "3A (TRIENAL)", "tipo": "Tempo", "intervalo_dias": 1095, "ult_h": 11591, "ult_data": "07/12/2024"},
                 "007": {"nome": "INSPEÇÃO ITENS DE SEGURANÇA 1S", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 11591, "ult_data": "06/08/2026"}
             }
         },
@@ -87,7 +88,7 @@ escopos_volvo = {
     "005": {"tarefas": ["PREV01 ME1027 REALIZAR LIMPEZA DO EVAPORADOR DO AR CONDICIONADO", "PREV02 ME0724 INSPECIONAR LUZ DE FREIO E SIRENE DE RE", "PREV03 ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA", "PREV04 ME0370 Inspecionar sistema de freio", "PREV05 LU0069 Inspecionar nivel de oleo do motor", "PREV06 LU0077 Inspecionar nivel de refrigerante/arrefecimento", "PREV07 LU0070 Inspecionar nivel de oleo da direcao hidraulica", "PREV08 ME0887 VERIFICAR O NIVEL DO SEPARADOR DAGUA", "PREV09 LU0050 Inspecionar filtro de ar-limpar", "PREV10 LU0052 Inspecionar filtro do ar condicionado", "PREV11 EL0007 Inspecionar farois e alarme de marcha re", "PREV12 ME0026 Conferir pressao-desgaste e danos nos pneus"], "materiais": {"Código": ["INSP-01"], "Descrição": ["CHECKLIST COMPLETO DE LUBRIFICAÇÃO E INSPEÇÃO"], "Qtd": ["1,00 AP"]}},
     "007": {"tarefas": ["PREV01 ME0991 SUBSTITUIR CORREIA DE TRANSMISSÃO", "PREV02 LU0357 Substituir fluido do sistema da direcao hidraulica", "PREV03 LU0324 Substituir filtro de direcao hidraulica"], "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "OLEO LUBRIFICANTE DIRECAO HIDRAULICA", "FILTRO DIRECAO HIDRAULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}},
     "008": {"tarefas": ["PREV01 LU0503 SUBSTITUIR SENSOR DE OXIGENIO"], "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGENIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}},
-    "009": {"tarefas": ["PREV01 LU0358 Substituir liquido de arrefecimento", "PREV02 LU0342 Substituir filtro do secador", "PREV03 ME0992 SUBSTITUIR ESTICADOR DA CORREIA MOTRIZ", "PREV04 ME0993 SUBSTITUIR POLIA INTERMEDIARIA"], "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHAO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}}
+    "009": {"tarefas": ["PREV01 LU0358 Substituir liquido di arrefecimento", "PREV02 LU0342 Substituir filtro do secador", "PREV03 ME0992 SUBSTITUIR ESTICADOR DA CORREIA MOTRIZ", "PREV04 ME0993 SUBSTITUIR POLIA INTERMEDIARIA"], "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHAO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}}
 }
 
 escopos_iveco = {
@@ -105,6 +106,7 @@ escopos_iveco = {
     },
     "004": {"tarefas": ["LU0008 Drenar e lavar o reservatorio de combustivel", "LU0342 Substituir filtro do secador"], "materiais": {"Código": ["24073"], "Descrição": ["FILTRO SECADOR AR IVECO NEXPRO (500090"], "Qtd": ["1,00 PC"]}},
     "005": {"tarefas": ["LU0358 Substituir liquido de arrefecimento"], "materiais": {"Código": ["16205"], "Descrição": ["FLUIDO DE ARREFECIMENTO WURTH 50/50 CO"], "Qtd": ["23,00 L"]}},
+    "006": {"tarefas": ["ME0511 Substituir liquido de acionamento do comando de embreagem", "ME0135 Inspecionar deformacoes na mola pneumatica da suspensao do 3 eixo"], "materiais": {"Código": ["02655"], "Descrição": ["FLUIDO FREIO SINTETICO DOT 4 GLYCOL"], "Qtd": ["0,40 L"]}},
     "007": {"tarefas": ["ME0724 INSPECIONAR LUZ DE FREIO SIRENE DE RÉ", "EL0007 Inspecionar farois e alarme de marcha", "ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA", "LU0069 Inspecionar nivel de oleo do motor", "LU0077 Inspecionar nivel de refrigerante/arrefecimento", "LU0070 Inspecionar nivel de oleo da direcao hidraulica", "ME0887 VERIFICAR O NÍVEL DO SEPARADOR DAGUA", "LU0050 Inspecionar filtro de ar-limpar", "ME0026 Conferir pressao-desgaste e danos nos pneus", "ME0370 Inspecionar sistema de freio"], "materiais": {"Código": ["MAO-INSP"], "Descrição": ["MECANICO-FROTA (MÃO DE OBRA INSPEÇÃO 1S)"], "Qtd": ["0,50 H"]}}
 }
 
@@ -252,6 +254,7 @@ with aba2:
             nome_foto = foto_os.name if foto_os is not None else "Nao anexada"
             st.session_state.historico.append({"Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'), "Ativo / TAG": tag_selecionado, "Data Ocorrência (Campo)": dt_registro_final, "Horímetro Informado": f"{novo_h} hrs", "Ação Executada": texto_acao, "OS Papel": num_os_manual if num_os_manual else "-", "REQ RM": num_rm if num_rm else "-", "Evidência": nome_foto})
             st.success("✔️ Informações de campo processadas com sucesso! Calendário de preventivas atualizado.")
+            st.sidebar.markdown("Use a opção **Clear cache** se necessário.")
             st.rerun()
 
 with aba3:
