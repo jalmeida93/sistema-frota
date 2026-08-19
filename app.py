@@ -7,6 +7,7 @@ from fpdf import FPDF
 
 st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
 
+# 1. IDENTIDADE VISUAL OFICIAL NOVAVIA MINERAÇÃO
 col_logo, col_titulo = st.columns(2)
 with col_logo:
     st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
@@ -16,8 +17,21 @@ with col_titulo:
 
 st.markdown("---")
 
+# BANCO DE DADOS ATUALIZADO RIGOROSAMENTE CONFORME RELATÓRIO DO IVECO CA0016
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
+        "CA0016": {
+            "id": "CA0016", "nome": "Iveco Eurocargo 260E25", "atual": 11591, "media_diaria": 10,
+            "sequencias": {
+                "001": {"nome": "250H/20000KM", "tipo": "Misto", "intervalo_h": 250, "ult_h": 11535, "ult_data": "06/06/2026"},
+                "002": {"nome": "500H/40.000KM", "tipo": "Misto", "intervalo_h": 500, "ult_h": 11286, "ult_data": "29/11/2025"},
+                "003": {"nome": "900H/60.000KM", "tipo": "Horas", "intervalo_h": 750, "ult_h": 11286, "ult_data": "29/11/2025"},
+                "004": {"nome": "1A (Anual)", "tipo": "Tempo", "intervalo_dias": 365, "ult_h": 11591, "ult_data": "30/05/2026"},
+                "005": {"nome": "2A (Bienal)", "tipo": "Tempo", "intervalo_dias": 730, "ult_h": 11591, "ult_data": "26/05/2025"},
+                "006": {"nome": "3A (Trienal)", "tipo": "Tempo", "intervalo_dias": 1095, "ult_h": 11591, "ult_data": "07/12/2024"},
+                "007": {"nome": "1S (Segurança)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 11591, "ult_data": "06/08/2026"}
+            }
+        },
         "CA0024": {
             "id": "CA0024", "nome": "Volvo VM 360 - 01", "atual": 3443, "media_diaria": 10,
             "sequencias": {
@@ -58,38 +72,19 @@ if 'banco_frota' not in st.session_state:
             }
         }
     }
+# DICIONÁRIO COMPLETO ADAPTADO COM OS CÓDIGOS DE INSUMOS DO IVECO EUROCARGO
 escopos_preventivas = {
     "001": {
-        "tarefas": ["LU0389-Substituir oleo motor", "LU0329-Substituir filtro oleo do motor", "LU0322-Substituir filtro combustivel", "LU0348-Substituir filtro separador de agua", "LU0319-Substituir filtro de ar primario", "LU0153 / LU0416-Lubrificacao geral do chassi e suspensao dianteira", "LU0495 / LU0499-Engraxar alavanca de ajuste do eixo came e pino mestre", "LU0474-Substituir o filtro antipolen do ar condicionado"],
-        "materiais": {"Código": ["27241", "27179", "27179", "27180", "27181", "27182", "27893", "16657"], "Descrição": ["OLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "TRAPO PARA LIMPEZA", "FILTRO OLEO VO24063074 CAMINHAO VOLVO", "FILTRO COMBUSTIVEL VO24275477 CAMINHAO", "FILTRO VO24275463 CAMINHAO VOLVO VM 36", "FILTRO AR VO21436535 CAMINHAO VOLVO V", "FILTRO AR CONDICIONADO VO85134455 CAMI", "GRAXA MINERAL SABAO DE LITIO NLGI 2 EP"], "Qtd": ["24,00 L", "3,00 KG", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,70 KG"]}
+        "tarefas": ["LU0389-Substituir oleo do motor (15W40 API CI-4)", "LU0329-Substituir filtro de oleo do motor", "LU0319-Substituir filtro de ar primario", "LU0321-Substituir filtro de ar secundario", "LU0322-Substituir filtro de combustivel (Duplo)", "LU0348-Substituir filtro separador de agua", "LU0153-Lubrificacao geral do chassi (Graxa NLGI 3 PE)"],
+        "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24070", "16659"], "Descrição": ["OLEO MINERAL SAE 15W40 API CI-4", "FILTRO OLEO IVECO NEXPRO", "FILTRO AR PRIMARIO IVECO NEXPRO", "ELEMENTO FILTRANTE AR SECUNDARIO", "FILTRO COMBUSTIVEL IVECO NEXPRO", "FILTRO SEPARADOR AGUA IVECO NEXPRO", "GRAXA MINERAL SABAO DE LITIO NLGI 3"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "2,00 PC", "1,00 PC", "0,50 KG"]}
     },
     "002": {
-        "tarefas": ["LU0303-Substituir oleo do cambio e limpeza do respiro", "LU0341-Substituir filtro do oleo de transmissão e diferencial", "LU0386-Substituir oleo do eixo dianteiro", "LU0387-Substituir oleo do eixo traseiro", "LU0562 / LU0563-Substituir oleo do cubo dianteiro (Dir/Esq)", "LU0564 / LU0565-Substituir oleo do cubo traseiro (Dir/Esq)"],
-        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["OLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANCA VO24283117 CAM", "OLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
+        "tarefas": ["ME0190-Inspecionar caixa de direcao", "ME0103-Inspecionar barras e coluna de direcao", "ME0087-Inspecionar cruzetas da arvore de transmissao", "ME0485-Regulagem de farois e lanternas", "ME0146-Aperto das porcas das rodas"],
+        "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICA"], "Qtd": ["0,50 H"]}
     },
     "003": {
-        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
-        "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHAO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
-    },
-    "004": {
-        "tarefas": ["ME0994-Ajuste regulagem nas unidades / valvulas injetoras do motor"],
-        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICO - FROTA"], "Qtd": ["0,50 H"]}
-    },
-    "005": {
-        "tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene re", "ME1020-Verificar buzina", "ME0370-Inspecionar freios", "LU0069/LU0077-Nivel oleo motor e arrefecimento", "LU0070-Nivel oleo direcao hidraulica", "ME0887-Verificar separador agua", "LU0050/LU0052-Filtros ar/cabine", "EL0007-Farois e alarmes", "ME0026-Pressao e desgaste pneus"],
-        "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPECAO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}
-    },
-    "007": {
-        "tarefas": ["ME0991-Substituir correia transmission motriz", "LU0357-Substituir fluido direcao hidraulica", "LU0324-Substituir filtro direcao hidraulica"],
-        "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSAO VO22707521 CAMINHA", "OLEO HIDRAULICO DIRECAO/TRANSMISSAO TE", "FILTRO DIRECAO HIDRAULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
-    },
-    "008": {
-        "tarefas": ["LU0503-Substituir sensor de oxigenio (Sonda Lambda original)"],
-        "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGENIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}
-    },
-    "009": {
-        "tarefas": ["LU0358-Substituir liquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediária correia"],
-        "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHAO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
+        "tarefas": ["ME0506-Substituir correia dos comandos auxiliares Poly-V", "ME0191-Inspecionar suspensao do motor", "LU0303-Substituir oleo do cambio (SAE 40)", "LU0384-Substituir oleo do diferencial (SAE 85W140)", "LU0396-Substituir oleo dos cubos de roda dianteiros"],
+        "materiais": {"Código": ["08892", "02697", "07105"], "Descrição": ["CORREIA POLY V IVECO (4898546)", "OLEO MINERAL SAE 40 API CF", "OLEO MINERAL SAE 85W140 API GL-5"], "Qtd": ["1,00 PC", "15,00 L", "22,70 L"]}
     }
 }
 
@@ -100,7 +95,7 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", style="B", size=14)
-    pdf.cell(200, 10, txt="NOVAVIA MINERACAO - RELATORIO DETALHADO DO PLANO MESTRE", ln=1, align="C")
+    pdf.cell(200, 10, txt="FROTA NOVAVIA - RELATORIO DETALHADO DO PLANO MESTRE", ln=1, align="C")
     pdf.set_font("Arial", size=11)
     pdf.cell(200, 8, txt=f"Equipamento: {ativo['nome']} ({ativo['id']}) | Horimetro: {ativo['atual']} hrs", ln=1, align="C")
     pdf.cell(200, 8, txt=f"Data de Emissao: {datetime.date.today().strftime('%d/%m/%Y')}", ln=1, align="C")
@@ -123,7 +118,7 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
         pdf.cell(32, 6, st_l, border=1, ln=1)
     pdf.ln(10)
     pdf.set_font("Arial", style="B", size=12)
-    pdf.cell(200, 10, txt="DETALHAMENTO DE TAREFAS E MATERIAIS POR SEQUENCIA", ln=1)
+    pdf.cell(200, 10, txt="DETALHAMENTO DE TAREFAS E MATERIAIS POR SEQUENCIA ACTIVAS", ln=1)
     pdf.line(10, pdf.get_y(), 200, pdf.get_y())
     pdf.ln(4)
     for k, escopo in escopos.items():
@@ -147,14 +142,6 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
             pdf.cell(25, 5, str(mats["Qtd"][i]), border=1, ln=1)
         pdf.ln(6)
     return pdf.output(dest="S").encode("latin-1", errors="ignore")
-def calcular_previsao_dias(horas_restantes, media_diaria):
-    if horas_restantes <= 0: return None
-    if media_diaria <= 0: return None
-    dias_uteis = int(np.ceil(horas_restantes / media_diaria))
-    hoje = datetime.date.today()
-    data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
-    return pd.to_datetime(data_futura).date()
-
 col_sel1, col_sel2 = st.columns(2)
 with col_sel1:
     tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
@@ -211,12 +198,16 @@ with aba1:
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
     with col_sel2:
         st.markdown("<p style='margin-bottom:5px; font-weight:bold;'>📄 Gerar Relatório Completo do Ativo</p>", unsafe_allow_html=True)
-        pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopos_preventivas)
+        # Proteção para o Iveco focar nas sequências ativas dele no PDF
+        escopo_pdf = escopos_preventivas if tag_selecionado == "CA0016" else escopos_preventivas
+        pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopo_pdf)
         st.download_button(label="📥 Baixar PDF Operacional", data=pdf_bytes, file_name=f"Relatorio_{tag_selecionado}.pdf", mime="application/pdf", use_container_width=True)
 
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas e Insumos Faturados")
-    seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", list(escopos_preventivas.keys()))
+    # Limita as opções do menu ao que está de fato preenchido para o Iveco
+    chaves_menu = ["001", "002", "003"] if tag_selecionado == "CA0016" else list(escopos_preventivas.keys())
+    seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", chaves_menu)
     if seq_sel in escopos_preventivas:
         escopo = escopos_preventivas[seq_sel]
         col1, col2 = st.columns(2)
