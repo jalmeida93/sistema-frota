@@ -7,7 +7,7 @@ from fpdf import FPDF
 
 st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
 
-# CORE DE INTELIGÊNCIA MATEMÁTICA (POSICIONAMENTO ESTRATÉGICO NO INÍCIO)
+# CORE DE INTELIGÊNCIA MATEMÁTICA DA NOVAVIA MINERAÇÃO
 def calcular_previsao_dias(horas_restantes, media_diaria):
     if horas_restantes <= 0: return None
     if media_diaria <= 0: return None
@@ -16,7 +16,7 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-# 1. IDENTIDADE VISUAL OFICIAL NOVAVIA MINERAÇÃO
+# 1. IDENTIDADE VISUAL OFICIAL
 col_logo, col_titulo = st.columns(2)
 with col_logo:
     st.markdown("<h1 style='text-align: center; margin:0; padding:0;'>🏗️</h1>", unsafe_allow_html=True)
@@ -26,7 +26,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DA FROTA (IVECO CA0016 INTEGRADO COM SUAS 7 SEQUÊNCIAS REAIS)
+# BANCO DE DADOS OFICIAL HISTÓRICO EXTRAÍDO DO PROTHEUS
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0016": {
@@ -85,43 +85,44 @@ if 'banco_frota' not in st.session_state:
             }
         }
     }
-escopos_preventivas = {
+# ESCOPOS TÉCNICOS SEPARADOS RIGOROSAMENTE POR MONTADORA/MODELO
+escopos_volvo = {
     "001": {
-        "tarefas": ["LU0389-Substituir oleo motor e filtros (Iveco: 15W40 Nexpro / Volvo: 10W30 VDS-4.5)", "LU0329-Substituir filtro oleo do motor", "LU0322-Substituir filtro combustivel", "LU0348-Substituir filtro separador de agua", "LU0319-Substituir filtro de ar primario", "LU0153-Lubrificacao geral do chassi, articulacoes e suspensoes com graxa"],
-        "materiais": {"Código": ["INS-01", "FIL-01", "FIL-02", "FIL-03", "GRA-01"], "Descrição": ["OLEO LUBRIFICANTE HOMOLOGADO CONFORME MANUAL", "FILTRO DE OLEO DO MOTOR ORIGINAL", "FILTRO DE COMBUSTIVEL OPERACIONAL", "FILTRO SEPARADOR DE AGUA", "GRAXA MINERAL EXTREMA PRESSAO EP2/EP3"], "Qtd": ["Volume Manual", "1,00 PC", "1,00 PC", "1,00 PC", "1,50 KG"]}
+        "tarefas": ["LU0389-Substituir oleo motor", "LU0329-Substituir filtro oleo do motor", "LU0322-Substituir filtro combustivel", "LU0348-Substituir filtro separador de agua", "LU0319-Substituir filtro de ar primario", "LU0474-Substituir o filtro antipolen do ar condicionado", "LU0153 / LU0416 / LU0495 / LU0499-Lubrificacao geral e eixos came"],
+        "materiais": {"Código": ["27241", "27179", "27180", "27181", "27182", "27893", "16657"], "Descrição": ["OLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "FILTRO OLEO VO24063074 CAMINHAO VOLVO", "FILTRO COMBUSTIVEL VO24275477 CAMINHAO", "FILTRO VO24275463 CAMINHAO VOLVO VM 36", "FILTRO AR VO21436535 CAMINHAO VOLVO V", "FILTRO AR CONDICIONADO VO85134455 CAMI", "GRAXA MINERAL SABAO DE LITIO NLGI 2 EP"], "Qtd": ["24,00 L", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,70 KG"]}
     },
     "002": {
-        "tarefas": ["LU0303-Substituir oleo do cambio / transmissao completa", "LU0341-Substituir filtro do oleo da caixa de mudancas", "LU0386-Substituir oleo do eixo diferencial dianteiro", "LU0387-Substituir oleo do eixo diferencial traseiro", "ME0146-Conferir torque e aperto das porcas das rodas"],
-        "materiais": {"Código": ["INS-02", "INS-03", "FIL-04"], "Descrição": ["OLEO TRANSMISSAO SAE 50 TO-4 / SAE 40", "OLEO DIFERENCIAL E CUBOS SAE 85W140 GL-5", "FILTRO CAIXA DE MUDANCA / TRANSMISSAO"], "Qtd": ["Volume Manual", "Volume Manual", "1,00 PC"]}
+        "tarefas": ["LU0303-Substituir oleo do cambio e limpeza do respiro", "LU0341-Substituir filtro do oleo de transmissão e diferencial", "LU0386-Substituir oleo do eixo dianteiro", "LU0387-Substituir oleo do eixo traseiro", "LU0562/LU0563/LU0564/LU0565-Substituir oleo cubos roda (Diant/Tras)"],
+        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["OLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANCA VO24283117 CAM", "OLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
     },
     "003": {
-        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF / Catalisador)", "LU0567-Substituir kit filtro de ar do tanque de ARLA", "LU0568-Substituir filtro da boia de succao do tanque de ARLA", "ME0506-Substituir correia de acessoriosPoly-V externa"],
-        "materiais": {"Código": ["FIL-DPF", "28798", "28799", "COR-01"], "Descrição": ["ELEMENTO FILTRO DE PARTICULADOS DPF", "KIT FILTRO AR ARLA ORIGINAL VO24147170", "FILTRO BOIA TANQUE ARLA VO24111100", "CORREIA DOS COMANDOS AUXILIARES POLY-V"], "Qtd": ["1,00 PC", "1,00 KIT", "1,00 PC", "1,00 PC"]}
+        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
+        "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHAO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
     },
-    "004": {
-        "tarefas": ["ME0994-Ajuste regulagem nas unidades injetoras e folga de valvulas do motor", "ME0210-Revisao de torque estrutural do cabecote e fixacoes"],
-        "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICA DE CABECOTE"], "Qtd": ["0,50 H"]}
+    "004": { "tarefas": ["ME0994-Ajuste regulagem nas unidades / valvulas injetoras do motor"], "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICO - FROTA"], "Qtd": ["0,50 H"]} },
+    "005": { "tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene re", "ME0026-Pressao e desgaste pneus"], "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPECAO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]} },
+    "007": { "tarefas": ["ME0991-Substituir correia transmission motriz", "LU0357-Substituir fluido direcao hidraulica", "LU0324-Substituir filtro direcao hidraulica"], "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSAO VO22707521 CAMINHA", "OLEO HIDRAULICO DIRECAO/TRANSMISSAO TE", "FILTRO DIRECAO HIDRAULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]} },
+    "008": { "tarefas": ["LU0503-Substituir sensor de oxigenio (Sonda Lambda original)"], "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGENIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]} },
+    "009": { "tarefas": ["LU0358-Substituir liquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediaria correia"], "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHAO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]} }
+}
+
+escopos_iveco = {
+    "001": {
+        "tarefas": ["LU0389-Substituir oleo do motor (15W40 API CI-4)", "LU0329-Substituir filtro de oleo do motor", "LU0319-Substituir filtro de ar primario", "LU0321-Substituir filtro de ar secundario", "LU0322-Substituir filtro de combustivel (Duplo)", "LU0348-Substituir filtro separador de agua", "LU0153-Lubrificacao geral do chassi (Graxa NLGI 3 PE)"],
+        "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24070", "16659"], "Descrição": ["OLEO MINERAL SAE 15W40 API CI-4", "FILTRO OLEO IVECO NEXPRO", "FILTRO AR PRIMARIO IVECO NEXPRO", "ELEMENTO FILTRANTE AR SECUNDARIO", "FILTRO COMBUSTIVEL IVECO NEXPRO", "FILTRO SEPARADOR AGUA IVECO NEXPRO", "GRAXA MINERAL SABAO DE LITIO NLGI 3"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "2,00 PC", "1,00 PC", "0,50 KG"]}
     },
-    "005": {
-        "tarefas": ["ME1027-Limpeza quimica e higienizacao do evaporador do ar condicionado", "ME0724-Inspecionar sinalizacao eletrica, luz de freio e sirene de re", "ME0026-Conferir calibracao e desgaste de pneus (Rodizio se necessario)"],
-        "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO E HIGIENIZACAO DE CABINE"], "Qtd": ["1,00 AP"]}
+    "002": {
+        "tarefas": ["ME0190-Inspecionar caixa de direcao", "ME0103-Inspecionar barras e coluna de direcao", "ME0087-Inspecionar cruzetas da arvore de transmissao", "ME0485-Regulagem de farois e lanternas", "ME0146-Aperto das porcas das rodas"],
+        "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICA"], "Qtd": ["0,50 H"]}
     },
-    "006": {
-        "tarefas": ["LU0502-Substituir tampa do reservatorio de fluido hidraulico da embreagem", "ME0390-Revisao preventiva em componentes internos do servo de embreagem"],
-        "materiais": {"Código": ["TAM-01"], "Descrição": ["TAMPA COMPLETA RESERVATORIO FLUIDO EMBREAGEM"], "Qtd": ["1,00 PC"]}
+    "003": {
+        "tarefas": ["ME0506-Substituir correia dos comandos auxiliares Poly-V", "ME0191-Inspecionar suspensao do motor", "LU0303-Substituir oleo do cambio (SAE 40)", "LU0384-Substituir oleo do differential (SAE 85W140)", "LU0396-Substituir oleo dos cubos de roda dianteiros"],
+        "materiais": {"Código": ["08892", "02697", "07105"], "Descrição": ["CORREIA POLY V IVECO (4898546)", "OLEO MINERAL SAE 40 API CF", "OLEO MINERAL SAE 85W140 API GL-5"], "Qtd": ["1,00 PC", "15,00 L", "22,70 L"]}
     },
-    "007": {
-        "tarefas": ["ME0991-Substituir correia principal de transmissao motriz do motor", "LU0357-Substituir fluido hidraulico do sistema de direcao assistida", "LU0324-Substituir filtro interno do reservatorio da direcao"],
-        "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSAO ORIGINAL", "OLEO HIDRAULICO ATF DIRECAO", "FILTRO DIRECAO HIDRAULICA"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}
-    },
-    "008": {
-        "tarefas": ["LU0503-Substituir sensor de oxigenio do escapamento (Sonda Lambda Eletronica)", "EL0015-Revisao e limpeza em conectores eletricos do modulo de injecao"],
-        "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGENIO ORIGINAL"], "Qtd": ["1,00 PC"]}
-    },
-    "009": {
-        "tarefas": ["LU0358-Substituir liquido de arrefecimento do motor (Aditivo VCS2 Laranja)", "LU0342-Substituir elemento filtro secador do sistema pneumatico (APU)", "ME0992-Substituir conjunto esticador da correia motriz", "ME0993-Substituir polia intermediaria de desvio da correia"],
-        "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO DE ARREFECIMENTO COMPLETO LARANJA", "FILTRO SECADOR APU SISTEMA PNEUMATICO", "ESTICADOR DA CORREIA MOTRIZ DO MOTOR", "POLIA INTERMEDIARIA DA CORREIA MOTRIZ"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}
-    }
+    "004": { "tarefas": ["ME0210-Revisao de torque estrutural e fixacoes de cabecote"], "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA AJUSTE DE VALVULAS IVECO"], "Qtd": ["1,00 H"]} },
+    "005": { "tarefas": ["ME1027-Higienizacao do evaporador do ar condicionado"], "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO E HIGIENIZACAO IVECO"], "Qtd": ["1,00 AP"]} },
+    "006": { "tarefas": ["LU0502-Substituir tampa do reservatorio hidraulico da embreagem"], "materiais": {"Código": ["TAM-01"], "Descrição": ["TAMPA COMPLETA RESERVATORIO EMBREAGEM"], "Qtd": ["1,00 PC"]} },
+    "007": { "tarefas": ["ME0724-Inspecionar itens de seguranca e luzes operacionais de mina"], "materiais": {"Código": ["INSP-SEG"], "Descrição": ["INSPECAO DE CHECKLIST OBRIGATORIO SEMANAL"], "Qtd": ["1,00 AP"]} }
 }
 
 if 'historico' not in st.session_state: st.session_state.historico = []
@@ -185,6 +186,9 @@ with col_sel1:
 
 aba1, aba2, aba3 = st.tabs(["📊 Painel Multigatilhos", "👨‍🔧 Oficina / Lançamentos", "📋 Histórico de Crise"])
 
+# Sincroniza dinamicamente a matriz técnica com base no TAG
+escopo_ativo = escopos_iveco if tag_selecionado == "CA0016" else escopos_volvo
+
 with aba1:
     st.subheader(f"Situação dos Ciclos de Manutenção Preventiva - Ativo: {ativo_atual['id']}")
     st.markdown(f"**Contador Atual:** `{ativo_atual['atual']} hrs` | **Ritmo Real Calculado:** `{ativo_atual['media_diaria']:.1f} horas/dia util`")
@@ -216,15 +220,15 @@ with aba1:
     st.dataframe(pd.DataFrame(dados_painel), use_container_width=True, hide_index=True)
     with col_sel2:
         st.markdown("<p style='margin-bottom:5px; font-weight:bold;'>📄 Gerar Relatório Completo do Ativo</p>", unsafe_allow_html=True)
-        pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopos_preventivas)
+        pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopo_ativo)
         st.download_button(label="📥 Baixar PDF Operacional", data=pdf_bytes, file_name=f"Relatorio_{tag_selecionado}.pdf", mime="application/pdf", use_container_width=True)
 
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas")
     listagem_menu_dinamico = list(ativo_atual["sequencias"].keys())
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", listagem_menu_dinamico)
-    if seq_sel in escopos_preventivas:
-        escopo = escopos_preventivas[seq_sel]
+    if seq_sel in escopo_ativo:
+        escopo = escopo_ativo[seq_sel]
         c1, col2 = st.columns(2)
         with c1:
             st.markdown(f"**📋 Tarefas Mecânicas (Sequência {seq_sel}):**")
@@ -269,7 +273,7 @@ with aba2:
                 texto_acao = f"Fechamento Completo da Sequência {cod_seq}"
             nome_foto = foto_os.name if foto_os is not None else "Nao anexada"
             st.session_state.historico.append({"Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'), "Ativo / TAG": tag_selecionado, "Data Ocorrência (Campo)": dt_registro_final, "Horímetro Informado": f"{novo_h} hrs", "Ação Executada": texto_acao, "OS Papel": num_os_manual if num_os_manual else "-", "REQ RM": num_rm if num_rm else "-", "Evidência": nome_foto})
-            st.success("✔️ Informações de campo processadas com sucesso! Calendário de preventivas updated.")
+            st.success("✔️ Informações de campo processadas com sucesso! Calendário de preventivas atualizado.")
             st.rerun()
 
 with aba3:
