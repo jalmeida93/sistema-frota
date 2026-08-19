@@ -13,14 +13,6 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(datetime.date.today(), dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
-# IDENTIDADE VISUAL NOVAVIA MINERAÇÃO
-col_logo, col_titulo = st.columns(2)
-with col_logo: st.markdown("<h1 style='text-align: center; margin:0;'>🏗️</h1>", unsafe_allow_html=True)
-with col_titulo:
-    st.markdown("<h2 style='margin:0; color:#1E3A8A;'>Plano Preventivas Novavia Mineração</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='font-style:italic; color:#555; margin:0;'>Gestão de Ativos e Engenharia de Confiabilidade</p>", unsafe_allow_html=True)
-st.markdown("---")
-
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0016": {
@@ -96,7 +88,7 @@ escopos_volvo = {
 
 escopos_iveco = {
     "001": {
-        "tarefas": ["LU0389 Substituir oleo do motor", "LU0329 Substituir filtro de oleo do motor", "LU0319 Substituir filtro de ar primario", "LU0321 Substituir filtro de ar secundario", "LU0322 Substituir filtro de combustivel", "LU0348 Substituir filtro separador de agua", "LU0153 Lubrificacao Geral", "LU0159 Lubrificar arvore de transmissao", "LU0290 Lubrificar terceiro eixo auxiliar(cubos das rodas)", "ME0147 Inspecionar e controlar indicador de obstrucao do filtro de ar", "ME0095 Inspecionar as lonas de freios", "ME0375 Inspecionar tandem traseiro", "ME0493 Sanar vazamentos de todos grupos mecanicos", "ME0071 Inspecionar ajuste das porcas dos grampos feixe de molas", "ME0070 Inspecionar abracadeiras-a vedacao condicao manqueiras aspiracao", "ME0412 Inspecionar vedacao da junta da tampa do filtro de ar", "ME0368 Inspecionar sistema de arrefecimento e aquecedor", "ME0369 Inspecionar sistema de basculamento da cabine", "ME0215 Inspecionar funcionamento dispositivo bloqueio sinalizador"],
+        "tarefas": ["LU0389 Substituir oleo do motor", "LU0329 Substituir filtro de oleo do motor", "LU0319 Substituir filtro de ar primario", "LU0321 Substituir filtro de ar secundario", "LU0322 Substituir filtro de combustivel", "LU0348 Substituir filtro separador de agua", "LU0153 Lubrificacao Geral", "LU0159 Lubrificar arvore de transmissao", "LU0290 Lubrificar terceiro eixo auxiliar(cubos das rodas)", "ME0147 Inspecionar e controlar indicador de obstrucao do filtro de ar", "ME0095 Inspecionar as lonas de freios", "ME0375 Inspecionar tandem traseiro", "ME0493 Sanar vazamentos de todos grupos mecanicos", "ME0071 Inspecionar ajuste das porcas dos grampos feixe de molas", "ME0070 Inspecionar abracadeiras-a vedacao condicao mancheiras aspiracao", "ME0412 Inspecionar vedacao da junta da tampa do filtro de ar", "ME0368 Inspecionar sistema de arrefecimento e aquecedor", "ME0369 Inspecionar sistema de basculamento da cabine", "ME0215 Inspecionar funcionamento dispositivo bloqueio sinalizador"],
         "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24069", "24070", "16659", "16660", "09048", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["ÓLEO MINERAL SAE 15W/40 API CI-4 (VOLV", "FILTRO ÓLEO IVECO NEXPRO (500058314)", "FILTRO AR PRIMÁRIO IVECO NEXPRO (50005", "ELEMENTO FILTRANTE AR SECUNDÁRIO IVECO", "FILTRO COMBUSTÍVEL IVECO NEXPRO (50005", "FILTRO COMBUSTÍVEL IVECO NEXPRO (50005", "FILTRO SEPARADOR ÁGUA/COMBUSTÍVEL IVEC", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 3 PE", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 3%", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 TE", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA)"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "0,50 KG", "0,50 KG", "0,50 KG", "0,50 H", "0,50 H"]}
     },
     "002": {
@@ -116,15 +108,16 @@ escopos_iveco = {
         "materiais": {"Código": ["16205", "ESPECIALIDADE LUF"], "Descrição": ["FLUIDO DE ARREFECIMENTO WURTH 50/50 CO", "LUBRIFICADOR - FROTA (MÃO DE OBRA 24M)"], "Qtd": ["23,00 L", "0,50 H"]}
     },
     "006": {
-        "tarefas": ["ME0135 INSPECIONAR DEFORMACOES NA MOLA PNEUMATICA DA SUSPENSAO DO 3° EIXO", "ME0511 Substituir liquido de acionamento do comando de embreagem", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
+        "tarefas": ["ME0135 INSPECIONAR DEFORMACOES NA MOLA PNEUMATICA DA SUSPENSAO", "ME0511 Substituir liquido de acionamento do comando de embreagem", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
         "materiais": {"Código": ["02655", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["FLUIDO FREIO SINTETICO DOT 4 GLYCOL", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA 36M)"], "Qtd": ["0,40 L", "0,17 H", "0,17 H"]}
     },
     "007": {
-        "tarefas": ["ME0724 INSPECIONAR LUZ DE FREIO SIRENE DE RÉ", "EL0007 Inspecionar farois-a ilumincao de trabalho o alarme de marcha", "ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA, SUBSTITUIR SE NECESSARIO", "LU0069 Inspecionar nivel de oleo do motor", "LU0077 Inspecionar nivel de refrigerante/arrefecimento-completar", "LU0070 Inspecionar nivel de oleo do reservatorio da direcao hidraulica", "ME0887 VERIFICAR O NÍVEL DO SEPARADOR DAGUA. DRENAR, SE NECESSÁRIO", "LU0050 Inspecionar filtro de ar-limpar e substituir se estiver", "ME0026 Conferir pressao-desgaste e possiveis danos nos pneus Fazer", "ME0370 Inspecionar sistema de freio", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
+        "tarefas": ["ME0724 INSPECIONAR LUZ DE FREIO SIRENE DE RÉ", "EL0007 Inspecionar farois-a ilumincao de trabalho o alarme de marcha", "ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA", "LU0069 Inspecionar nivel de oleo do motor", "LU0077 Inspecionar nivel de refrigerante/arrefecimento", "LU0070 Inspecionar nivel de oleo da direcao hidraulica", "ME0887 VERIFICAR O NÍVEL DO SEPARADOR DAGUA", "LU0050 Inspecionar filtro de ar-limpar", "ME0026 Conferir pressao-desgaste e danos nos pneus", "ME0370 Inspecionar sistema de freio", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
         "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MECANICO-FROTA (MÃO DE OBRA INSPEÇÃO 1S)"], "Qtd": ["0,50 H"]}
     }
 }
 
+if 'historico' not in st.session_state: st.session_state.historico = []
 def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
     pdf = FPDF()
     pdf.add_page()
@@ -176,7 +169,8 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
                 pdf.cell(125, 5, str(mats["Descrição"][i]), border=1)
                 pdf.cell(25, 5, str(mats["Qtd"][i]), border=1, ln=1)
             pdf.ln(6)
-return pdf.output(dest="S").encode("latin-1", errors="ignore")
+    return pdf.output(dest="S").encode("latin-1", errors="ignore")
+
 col_sel1, col_sel2 = st.columns(2)
 with col_sel1:
     tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
@@ -218,7 +212,6 @@ with aba1:
         st.markdown("<p style='margin-bottom:5px; font-weight:bold;'>📄 Gerar Relatório Completo do Ativo</p>", unsafe_allow_html=True)
         pdf_bytes = gerar_pdf_detalhado_operacional(ativo_atual, dados_painel, escopo_ativo)
         st.download_button(label="📥 Baixar PDF Operacional", data=pdf_bytes, file_name=f"Relatorio_{tag_selecionado}.pdf", mime="application/pdf", use_container_width=True)
-
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas")
     listagem_menu_dinamico = list(ativo_atual["sequencias"].keys())
@@ -232,7 +225,6 @@ with aba1:
         with col2:
             st.markdown(f"**📦 Insumos (Espelho RM):**")
             st.table(pd.DataFrame(escopo["materiais"]))
-
 with aba2:
     st.subheader("Registrar Apontamento de Campo")
     with st.form("form_oficina_melhorado", clear_on_submit=True):
@@ -256,7 +248,6 @@ with aba2:
             if dias_uteis_passados > 0 and delta_horas > 0:
                 nova_media = delta_horas / dias_uteis_passados
                 if 2 <= nova_media <= 24: st.session_state.banco_frota[tag_selecionado]["media_diaria"] = nova_media
-            
             st.session_state.banco_frota[tag_selecionado]["historico_leituras"].append({"data": dt_str, "horimetro": novo_h})
             st.session_state.banco_frota[tag_selecionado]["atual"] = novo_h
             texto_acao = "Apenas Atualização de Horímetro"
