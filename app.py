@@ -22,9 +22,8 @@ if 'banco_frota' not in st.session_state:
                 "001": {"nome": "250H/20000KM", "tipo": "Misto", "intervalo_h": 250, "ult_h": 11535, "ult_data": "06/06/2026"},
                 "002": {"nome": "500H/40.000KM", "tipo": "Misto", "intervalo_h": 500, "ult_h": 11286, "ult_data": "29/11/2025"},
                 "003": {"nome": "900H/60.000KM", "tipo": "Horas", "intervalo_h": 750, "ult_h": 11286, "ult_data": "29/11/2025"},
-                "004": {"nome": "1A", "tipo": "Tempo", "intervalo_dias": 365, "ult_h": 11591, "ult_data": "30/05/2026"},
-                "005": {"nome": "2A", "tipo": "Tempo", "intervalo_dias": 730, "ult_h": 11591, "ult_data": "26/05/2025"},
-                "006": {"nome": "3A", "tipo": "Tempo", "intervalo_dias": 1095, "ult_h": 11591, "ult_data": "07/12/2024"},
+                "004": {"nome": "1A (ANUAL)", "tipo": "Tempo", "intervalo_dias": 365, "ult_h": 11591, "ult_data": "30/05/2026"},
+                "005": {"nome": "2A (BIENAL)", "tipo": "Tempo", "intervalo_dias": 730, "ult_h": 11591, "ult_data": "26/05/2025"},
                 "007": {"nome": "INSPEÇÃO ITENS DE SEGURANÇA 1S", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 11591, "ult_data": "06/08/2026"}
             }
         },
@@ -36,7 +35,7 @@ if 'banco_frota' not in st.session_state:
                 "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 2456, "ult_data": "03/03/2026"},
                 "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 1, "ult_data": "10/08/2024"},
                 "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/08/2024"},
-                "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3443, "ult_data": "11/08/2026"},
+                "005": {"nome": "18 M (TEMPO)", "tipo": "Tempo", "intervalo_dias": 547, "ult_h": 3443, "ult_data": "10/08/2026"},
                 "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/08/2024"},
                 "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
                 "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
@@ -50,7 +49,7 @@ if 'banco_frota' not in st.session_state:
                 "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 3655, "ult_data": "25/07/2026"},
                 "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 3655, "ult_data": "25/07/2026"},
                 "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/08/2024"},
-                "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3823, "ult_data": "11/08/2026"},
+                "005": {"nome": "18 M (TEMPO)", "tipo": "Tempo", "intervalo_dias": 547, "ult_h": 3823, "ult_data": "10/08/2026"},
                 "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/08/2024"},
                 "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/08/2024"},
                 "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/08/2024"}
@@ -64,7 +63,7 @@ if 'banco_frota' not in st.session_state:
                 "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 2428, "ult_data": "04/03/2026"},
                 "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 3486, "ult_data": "10/10/2024"},
                 "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/10/2024"},
-                "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3486, "ult_data": "10/08/2026"},
+                "005": {"nome": "18 M (TEMPO)", "tipo": "Tempo", "intervalo_dias": 547, "ult_h": 3486, "ult_data": "10/08/2026"},
                 "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/10/2024"},
                 "008": {"nome": "180.000KM", "tipo": "Horas", "intervalo_h": 4500, "ult_h": 1, "ult_data": "10/10/2024"},
                 "009": {"nome": "4A/500.000KM", "tipo": "Tempo", "intervalo_dias": 1460, "ult_h": 1, "ult_data": "10/10/2024"}
@@ -73,104 +72,51 @@ if 'banco_frota' not in st.session_state:
     }
 escopos_volvo = {
     "001": {
-        "tarefas": ["LU0389 Substituir oleo motor", "LU0329 Substituir filtro de oleo do motor", "LU0322 Substituir filtro de combustivel", "LU0348 Substituir filtro separador de agua", "LU0319 Substituir filtro de ar primario", "LU0474 Substituir o filtro antipolen do ar condicionado", "LU0153/LU0416 Lubrificacao geral chassi", "LU0495/LU0499 Engraxar alavanca de ajuste"],
-        "materiais": {"Código": ["27241", "27179", "27180", "27181", "27182", "27893", "16657"], "Descrição": ["OLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "FILTRO OLEO VO24063074 CAMINHAO VOLVO", "FILTRO COMBUSTIVEL VO24275477 CAMINHAO", "FILTRO VO24275463 CAMINHAO VOLVO VM 36", "FILTRO AR VO21436535 CAMINHAO VOLVO V", "FILTRO AR CONDICIONADO VO85134455 CAMI", "GRAXA MINERAL SABAO DE LITIO NLGI 2 EP"], "Qtd": ["24,00 L", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,70 KG"]}
+        "tarefas": ["PREV01 LU0389 Substituir oleo do motor", "PREV02 LU0329 Substituir filtro de oleo do motor", "PREV03 LU0322 Substituir filtro de combustivel", "PREV04 LU0348 Substituir filtro separador de agua", "PREV05 LU0319 Substituir filtro de ar primario", "PREV06 LU0153 Lubrificac Geral", "PREV07 LU0416 LUBRIFICAR SUSPENSÃO DIANTEIRA", "PREV08 LU0495 ENGRAXAR ALAVANCA DE AJUSTE DO EIXO CAME DIANTEIRA", "PREV09 LU0499 ENGRAXAR PINO MESTRE DA MANGA DE EIXO", "PREV10 LU0497 ENGRAXAR O EIXO CAME DIANTEIRA", "PREV11 LU0496 ENGRAXAR ALAVANCA DE AJUSTE DO EIXO CAME TRASEIRA", "PREV12 LU0498 ENGRAXAR O EIXO CAME TRASEIRA", "PREV13 LU0086 Inspecionar nivel oleo hidraulico-completar", "PREV14 LU0500 VERIFICAR NIVEL DO RESERVATORIO DO FLUIDO DE EMBREAGEM", "PREV15 LU0474 SUBSTITUIR O FILTRO ANTIPOLEN DO AR CONDICIONADO"],
+        "materiais": {"Código": ["27241", "07069", "27179", "27180", "27181", "27182", "16657", "27893"], "Descrição": ["OLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "TRAPO PARA LIMPEZA", "FILTRO OLEO VO24063074 CAMINHAO VOLVO", "FILTRO COMBUSTIVEL VO24275477 CAMINHAO", "FILTRO VO24275463 CAMINHAO VOLVO VM 36", "FILTRO AR VO21436535 CAMINHAO VOLVO V", "GRAXA MINERAL SABAO DE LITIO NLGI 2 EP", "FILTRO AR CONDICIONADO VO85134455 CAMI"], "Qtd": ["24,00 L", "3,00 KG", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "3,40 KG", "1,00 PC"]}
     },
     "002": {
-        "tarefas": ["LU0303 Substituir oleo do cambio e limpeza do respiro", "LU0341 Substituir filtro do oleo de transmissão e diferencial", "LU0386 Substituir oleo do eixo dianteiro", "LU0387 Substituir oleo do eixo traseiro", "LU0562/LU0563/LU0564/LU0565 Substituir oleo cubos roda"],
-        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["OLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANCA VO24283117 CAM", "OLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
+        "tarefas": ["PREV01 LU0303 Substituir oleo do cambio e limpeza do respiro", "PREV02 LU0341 Substituir filtro do oleo de transmissão e diferencial", "PREV03 LU0386 Substituir oleo do eixo dianteiro", "PREV04 LU0387 Substituir oleo do eixo traseiro", "PREV05 LU0562 SUBSTITUIR OLEO DO CUBO DIANTEIRO DIREITO", "PREV06 LU0563 SUBSTITUIR OLEO DO CUBO DIANTEIRO ESQUERDO", "PREV07 LU0564 SUBSTITUIR OLEO DO CUBO TRASEIRO ESQUERDO", "PREV08 LU0565 SUBSTITUIR OLEO DO CUBO TRASEIRO DIREITO"],
+        "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["OLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANÇA VO24283117 CAM", "OLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
     },
     "003": {
-        "tarefas": ["LU0501 Substituir elemento do filtro de particulados (DPF)", "LU0567 Substituir filtro do tanque do ARLA", "LU0568 Filtro boia tanque ARLA"],
+        "tarefas": ["PREV01 LU0501 SUBSTITUIR ELEMENTO DO FILTRO DE PARTICULADOS (DPF)", "PREV02 LU0567 SUBSTITUIR FILTRO DO TANQUE DO ARLA", "PREV03 LU0568 SUBSTITUIR FILTRO DA BOIA DO TANQUE DO ARLA"],
         "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHAO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
-    }
+    },
+    "004": {"tarefas": ["PREV01 ME0994 AJUSTE NAS UNIDADES / VÁLVULAS INJETORAS"], "materiais": {"Código": ["MAO-OBRA"], "Descrição": ["MÃO DE OBRA MECÂNICO VOLVO"], "Qtd": ["1,00 H"]}},
+    "005": {"tarefas": ["PREV01 ME1027 REALIZAR LIMPEZA DO EVAPORADOR DO AR CONDICIONADO", "PREV02 ME0724 INSPECIONAR LUZ DE FREIO E SIRENE DE RE", "PREV03 ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA", "PREV04 ME0370 Inspecionar sistema de freio", "PREV05 LU0069 Inspecionar nivel de oleo do motor", "PREV06 LU0077 Inspecionar nivel de refrigerante/arrefecimento", "PREV07 LU0070 Inspecionar nivel de oleo da direcao hidraulica", "PREV08 ME0887 VERIFICAR O NIVEL DO SEPARADOR DAGUA", "PREV09 LU0050 Inspecionar filtro de ar-limpar", "PREV10 LU0052 Inspecionar filtro do ar condicionado", "PREV11 EL0007 Inspecionar farois e alarme de marcha re", "PREV12 ME0026 Conferir pressao-desgaste e danos nos pneus"], "materiais": {"Código": ["INSP-01"], "Descrição": ["CHECKLIST COMPLETO DE LUBRIFICAÇÃO E INSPEÇÃO"], "Qtd": ["1,00 AP"]}},
+    "007": {"tarefas": ["PREV01 ME0991 SUBSTITUIR CORREIA DE TRANSMISSÃO", "PREV02 LU0357 Substituir fluido do sistema da direcao hidraulica", "PREV03 LU0324 Substituir filtro de direcao hidraulica"], "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSÃO VO22707521 CAMINHA", "OLEO LUBRIFICANTE DIRECAO HIDRAULICA", "FILTRO DIRECAO HIDRAULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}},
+    "008": {"tarefas": ["PREV01 LU0503 SUBSTITUIR SENSOR DE OXIGENIO"], "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGENIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}},
+    "009": {"tarefas": ["PREV01 LU0358 Substituir liquido de arrefecimento", "PREV02 LU0342 Substituir filtro do secador", "PREV03 ME0992 SUBSTITUIR ESTICADOR DA CORREIA MOTRIZ", "PREV04 ME0993 SUBSTITUIR POLIA INTERMEDIARIA"], "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHAO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}}
 }
-
-escopos_iveco = {
-    "001": {
-        "tarefas": ["LU0389 Substituir oleo do motor", "LU0329 Substituir filtro de oleo do motor", "LU0319 Substituir filtro de ar primario", "LU0321 Substituir filtro de ar secundario", "LU0322 Substituir filtro de combustivel", "LU0348 Substituir filtro separador de agua", "LU0153 Lubrificacao Geral", "LU0159 Lubrificar arvore de transmissao", "LU0290 Lubrificar terceiro eixo auxiliar(cubos das rodas)", "ME0147 Inspecionar e controlar indicador de obstrucao do filtro de ar", "ME0095 Inspecionar as lonas de freios", "ME0375 Inspecionar tandem traseiro", "ME0493 Sanar vazamentos de todos grupos mecanicos", "ME0071 Inspecionar ajuste das porcas dos grampos feixe de molas", "ME0070 Inspecionar abracadeiras-a vedacao condicao mancheiras aspiracao", "ME0412 Inspecionar vedacao da junta da tampa do filtro de ar", "ME0368 Inspecionar sistema de arrefecimento e aquecedor", "ME0369 Inspecionar sistema de basculamento da cabine", "ME0215 Inspecionar funcionamento dispositivo bloqueio sinalizador"],
-        "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24069", "24070", "16659", "16660", "09048", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["ÓLEO MINERAL SAE 15W/40 API CI-4 (VOLV", "FILTRO ÓLEO IVECO NEXPRO (500058314)", "FILTRO AR PRIMÁRIO IVECO NEXPRO (50005", "ELEMENTO FILTRANTE AR SECUNDÁRIO IVECO", "FILTRO COMBUSTÍVEL IVECO NEXPRO (50005", "FILTRO COMBUSTÍVEL IVECO NEXPRO (50005", "FILTRO SEPARADOR ÁGUA/COMBUSTÍVEL IVEC", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 3 PE", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 3%", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 TE", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA)"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "0,50 KG", "0,50 KG", "0,50 KG", "0,50 H", "0,50 H"]}
-    },
-    "002": {
-        "tarefas": ["ME0190 Inspecionar fixacao da caixa de direcao do seu suporte", "ME0103 Inspecionar barras de direcao-rotulas e coluna da direcao", "ME0087 Inspecionar arvore de transmissao-cruzeta fixacao dos flanges", "ME0485 Regulagem dos farois lanternas traseiras laterais", "ME0146 Inspecionar e apertar-se necessario-as porcas rodas", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
-        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MECANICO-FROTA (MÃO DE OBRA MPREV)"], "Qtd": ["0,50 H"]}
-    },
-    "003": {
-        "tarefas": ["ME0506 Substituir correia dos comandos auxiliares do motor principal", "ME0191 Inspecionar fixacao da suspensão do motor", "ME0225 Inspecionar interferencias das partes moveis", "LU0303 Substituir oleo do cambio e limpeza do respiro de vapores", "LU0384 Substituir oleo do diferencial", "LU0132 Limpar o respiro dos vapores de oleo", "LU0396 Substituir oleo dos cubos das rodas dianteiras", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
-        "materiais": {"Código": ["08892", "02697", "07105", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["CORREIA POLY V IVECO (4898546)", "ÓLEO MINERAL SAE 40 API CF ACEA E2.", "ÓLEO MINERAL SAE 85W/140 API GL-5", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA)"], "Qtd": ["1,00 PC", "15,00 L", "22,70 L", "0,50 H", "0,50 H"]}
-    },
-    "004": {
-        "tarefas": ["LU0008 Drenar e lavar o reservatorio de combustivel", "LU0342 Substituir filtro do secador", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO"],
-        "materiais": {"Código": ["24073", "ESPECIALIDADE LUF"], "Descrição": ["FILTRO SECADOR AR IVECO NEXPRO (500090", "LUBRIFICADOR - FROTA (MÃO DE OBRA 12M)"], "Qtd": ["1,00 PC", "0,50 H"]}
-    },
-    "005": {
-        "tarefas": ["LU0358 Substituir liquido de arrefecimento", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO"],
-        "materiais": {"Código": ["16205", "ESPECIALIDADE LUF"], "Descrição": ["FLUIDO DE ARREFECIMENTO WURTH 50/50 CO", "LUBRIFICADOR - FROTA (MÃO DE OBRA 24M)"], "Qtd": ["23,00 L", "0,50 H"]}
-    },
-    "006": {
-        "tarefas": ["ME0135 INSPECIONAR DEFORMACOES NA MOLA PNEUMATICA DA SUSPENSAO", "ME0511 Substituir liquido de acionamento do comando de embreagem", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
-        "materiais": {"Código": ["02655", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["FLUIDO FREIO SINTETICO DOT 4 GLYCOL", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA 36M)"], "Qtd": ["0,40 L", "0,17 H", "0,17 H"]}
-    },
-    "007": {
-        "tarefas": ["ME0724 INSPECIONAR LUZ DE FREIO SIRENE DE RÉ", "EL0007 Inspecionar farois-a ilumincao de trabalho o alarme de marcha", "ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA", "LU0069 Inspecionar nivel de oleo do motor", "LU0077 Inspecionar nivel de refrigerante/arrefecimento", "LU0070 Inspecionar nivel de oleo da direcao hidraulica", "ME0887 VERIFICAR O NÍVEL DO SEPARADOR DAGUA", "LU0050 Inspecionar filtro de ar-limpar", "ME0026 Conferir pressao-desgaste e danos nos pneus", "ME0370 Inspecionar sistema de freio", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
-        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MECANICO-FROTA (MÃO DE OBRA INSPEÇÃO 1S)"], "Qtd": ["0,50 H"]}
-    }
-}
-
-if 'historico' not in st.session_state: st.session_state.historico = []
 def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", style="B", size=14)
     pdf.cell(200, 10, txt="FROTA NOVAVIA - RELATORIO DETALHADO DO PLANO MESTRE", ln=1, align="C")
     pdf.set_font("Arial", size=11)
-    pdf.cell(200, 8, txt=f"Equipamento: {ativo['nome']} ({ativo['id']}) | Horimetro: {ativo['atual']} hrs", ln=1, align="C")
-    pdf.cell(200, 8, txt=f"Data de Emissao: {datetime.date.today().strftime('%d/%m/%Y')}", ln=1, align="C")
-    pdf.ln(8)
-    pdf.set_font("Arial", style="B", size=10)
-    pdf.cell(12, 7, "Seq", border=1)
-    pdf.cell(60, 7, "Frequencia Mestre", border=1)
-    pdf.cell(48, 7, "Ultima Execucao", border=1)
-    pdf.cell(38, 7, "Proxima Meta", border=1)
-    pdf.cell(32, 7, "Status", border=1, ln=1)
-    pdf.set_font("Arial", size=9)
-    for linha in tabela_dados:
-        freq_l = str(linha["Descrição da Frequência Mestre"]).replace("í", "i").replace("ã", "a")
-        ult_l = str(linha["Última Execução"]).replace("ç", "c").replace("ã", "a")
-        st_l = str(linha["Status"]).replace("🟢 ", "").replace("🔴 ", "").replace("🟡 ", "")
-        pdf.cell(12, 6, str(linha["Seq"]), border=1)
-        pdf.cell(60, 6, freq_l, border=1)
-        pdf.cell(48, 6, ult_l, border=1)
-        pdf.cell(38, 6, str(linha["Próxima Meta"]), border=1)
-        pdf.cell(32, 6, st_l, border=1, ln=1)
+    pdf.cell(200, 8, txt=f"Equipamento: {ativo['nome']} ({ativo['id']})", ln=1, align="C")
+    pdf.ln(5)
+    for l in tabela_dados:
+        f_l = str(l["Descrição da Frequência Mestre"]).replace("í", "i").replace("ã", "a")
+        u_l = str(l["Última Execução"]).replace("ç", "c").replace("ã", "a")
+        s_l = str(l["Status"]).replace("🟢 ", "").replace("🔴 ", "").replace("🟡 ", "")
+        pdf.cell(12, 6, str(l["Seq"]), border=1)
+        pdf.cell(60, 6, f_l, border=1)
+        pdf.cell(48, 6, u_l, border=1)
+        pdf.cell(38, 6, str(l["Próxima Meta"]), border=1)
+        pdf.cell(32, 6, s_l, border=1, ln=1)
     pdf.ln(10)
-    pdf.set_font("Arial", style="B", size=12)
-    pdf.cell(200, 10, txt="DETALHAMENTO DE TAREFAS E MATERIAIS FILTRADOS", ln=1)
-    pdf.line(10, pdf.get_y(), 200, pdf.get_y())
-    pdf.ln(4)
     for k in ativo["sequencias"].keys():
         if k in escopos:
             escopo = escopos[k]
             pdf.set_font("Arial", style="B", size=10)
             pdf.cell(200, 8, txt=f"--- SEQUENCIA {k} ---", ln=1)
-            pdf.set_font("Arial", style="I", size=9)
-            pdf.cell(200, 6, txt="Tarefas Mecanicas Cadastradas:", ln=1)
-            pdf.set_font("Arial", size=9)
-            for t in escopo["tarefas"]: pdf.cell(200, 5, txt=f"- {t}", ln=1)
-            pdf.ln(2)
-            pdf.set_font("Arial", style="B", size=9)
-            pdf.cell(25, 6, "Codigo", border=1)
-            pdf.cell(125, 6, "Descricao do Insumo", border=1)
-            pdf.cell(25, 6, "Qtd", border=1, ln=1)
             pdf.set_font("Arial", size=8)
-            mats = escopo["materials"] if "materials" in escopo else escopo["materiais"]
-            for i in range(len(mats["Código"])):
-                pdf.cell(25, 5, str(mats["Código"][i]), border=1)
-                pdf.cell(125, 5, str(mats["Descrição"][i]), border=1)
-                pdf.cell(25, 5, str(mats["Qtd"][i]), border=1, ln=1)
-            pdf.ln(6)
+            for t in escopo["tarefas"]: pdf.cell(200, 4, txt=f"- {t}", ln=1)
     return pdf.output(dest="S").encode("latin-1", errors="ignore")
 
+col_logo, col_titulo = st.columns(2)
 col_sel1, col_sel2 = st.columns(2)
 with col_sel1:
     tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
@@ -225,6 +171,7 @@ with aba1:
         with col2:
             st.markdown(f"**📦 Insumos (Espelho RM):**")
             st.table(pd.DataFrame(escopo["materiais"]))
+
 with aba2:
     st.subheader("Registrar Apontamento de Campo")
     with st.form("form_oficina_melhorado", clear_on_submit=True):
