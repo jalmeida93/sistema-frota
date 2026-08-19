@@ -7,6 +7,15 @@ from fpdf import FPDF
 
 st.set_page_config(page_title="Plano Preventivas Novavia Mineração", layout="wide", page_icon="🏗️")
 
+# CORE DE INTELIGÊNCIA MATEMÁTICA (POSICIONAMENTO ESTRATÉGICO NO INÍCIO)
+def calcular_previsao_dias(horas_restantes, media_diaria):
+    if horas_restantes <= 0: return None
+    if media_diaria <= 0: return None
+    dias_uteis = int(np.ceil(horas_restantes / media_diaria))
+    hoje = datetime.date.today()
+    data_futura = np.busday_offset(hoje, dias_uteis, roll='forward')
+    return pd.to_datetime(data_futura).date()
+
 # 1. IDENTIDADE VISUAL OFICIAL NOVAVIA MINERAÇÃO
 col_logo, col_titulo = st.columns(2)
 with col_logo:
@@ -17,7 +26,7 @@ with col_titulo:
 
 st.markdown("---")
 
-# BANCO DE DADOS DETALHADO DA FROTA (CA0016, CA0024, CA0025 E CA0026 TOTALMENTE INTEGRAIS)
+# BANCO DE DADOS DETALHADO DA FROTA (IVECO CA0016 INTEGRADO COM SUAS 7 SEQUÊNCIAS REAIS)
 if 'banco_frota' not in st.session_state:
     st.session_state.banco_frota = {
         "CA0016": {
@@ -67,7 +76,7 @@ if 'banco_frota' not in st.session_state:
             "sequencias": {
                 "001": {"nome": "600H/15.000KM/1A", "tipo": "Misto", "intervalo_h": 600, "ult_h": 3007, "ult_data": "06/06/2026"},
                 "002": {"nome": "1200H/1A", "tipo": "Misto", "intervalo_h": 1200, "ult_h": 2428, "ult_data": "04/03/2026"},
-                "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 1, "ult_data": "10/10/2024"},
+                "003": {"nome": "3600H/65.000KM", "tipo": "Horas", "intervalo_h": 3600, "ult_h": 3486, "ult_data": "10/10/2024"},
                 "004": {"nome": "4800H/150.000KM", "tipo": "Horas", "intervalo_h": 4800, "ult_h": 1, "ult_data": "10/10/2024"},
                 "005": {"nome": "1S (Semanal)", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 3486, "ult_data": "10/08/2026"},
                 "007": {"nome": "4000H/2A/200.000KM", "tipo": "Misto", "intervalo_h": 4000, "ult_h": 1, "ult_data": "10/10/2024"},
@@ -76,7 +85,6 @@ if 'banco_frota' not in st.session_state:
             }
         }
     }
-# DICIONÁRIO COMPLETO DISPONÍVEL DO PROTHEUS (DA SEQUÊNCIA 001 À 009 COMPLETA)
 escopos_preventivas = {
     "001": {
         "tarefas": ["LU0389-Substituir oleo motor e filtros (Iveco: 15W40 Nexpro / Volvo: 10W30 VDS-4.5)", "LU0329-Substituir filtro oleo do motor", "LU0322-Substituir filtro combustivel", "LU0348-Substituir filtro separador de agua", "LU0319-Substituir filtro de ar primario", "LU0153-Lubrificacao geral do chassi, articulacoes e suspensoes com graxa"],
@@ -148,7 +156,6 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
     pdf.cell(200, 10, txt="DETALHAMENTO DE TAREFAS E MATERIAIS FILTRADOS", ln=1)
     pdf.line(10, pdf.get_y(), 200, pdf.get_y())
     pdf.ln(4)
-    # Varre dinamicamente APENAS as sequências ativas do ativo selecionado
     for k in ativo["sequencias"].keys():
         if k in escopos:
             escopo = escopos[k]
@@ -214,7 +221,6 @@ with aba1:
 
     st.markdown("---")
     st.subheader("🔍 Consulta Detalhada de Escopo de Tarefas")
-    # Puxa dinamicamente como opção de menu apenas as sequências ativas daquele equipamento específico
     listagem_menu_dinamico = list(ativo_atual["sequencias"].keys())
     seq_sel = st.selectbox("Selecione uma sequência ativa para abrir o espelho de requisição do Protheus/RM:", listagem_menu_dinamico)
     if seq_sel in escopos_preventivas:
@@ -263,7 +269,7 @@ with aba2:
                 texto_acao = f"Fechamento Completo da Sequência {cod_seq}"
             nome_foto = foto_os.name if foto_os is not None else "Nao anexada"
             st.session_state.historico.append({"Data Lançamento": datetime.date.today().strftime('%d/%m/%Y'), "Ativo / TAG": tag_selecionado, "Data Ocorrência (Campo)": dt_registro_final, "Horímetro Informado": f"{novo_h} hrs", "Ação Executada": texto_acao, "OS Papel": num_os_manual if num_os_manual else "-", "REQ RM": num_rm if num_rm else "-", "Evidência": nome_foto})
-            st.success("✔️ Informações de campo processadas com sucesso! Calendário de preventivas atualizado.")
+            st.success("✔️ Informações de campo processadas com sucesso! Calendário de preventivas updated.")
             st.rerun()
 
 with aba3:
