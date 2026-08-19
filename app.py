@@ -13,6 +13,7 @@ def calcular_previsao_dias(horas_restantes, media_diaria):
     data_futura = np.busday_offset(datetime.date.today(), dias_uteis, roll='forward')
     return pd.to_datetime(data_futura).date()
 
+# IDENTIDADE VISUAL NOVAVIA MINERAÇÃO
 col_logo, col_titulo = st.columns(2)
 with col_logo: st.markdown("<h1 style='text-align: center; margin:0;'>🏗️</h1>", unsafe_allow_html=True)
 with col_titulo:
@@ -26,13 +27,13 @@ if 'banco_frota' not in st.session_state:
             "id": "CA0016", "nome": "Iveco Eurocargo 260E25", "atual": 11591, "media_diaria": 10.0,
             "historico_leituras": [{"data": "13/08/2026", "horimetro": 11591}],
             "sequencias": {
-                "001": {"nome": "250H / 20.000 KM", "tipo": "Misto", "intervalo_h": 250, "ult_h": 11535, "ult_data": "06/06/2026"},
-                "002": {"nome": "500H / 40.000 KM", "tipo": "Misto", "intervalo_h": 500, "ult_h": 11286, "ult_data": "29/11/2025"},
-                "003": {"nome": "900H / 60.000 KM", "tipo": "Horas", "intervalo_h": 750, "ult_h": 11286, "ult_data": "29/11/2025"},
-                "004": {"nome": "1A (ANUAL)", "tipo": "Tempo", "intervalo_dias": 365, "ult_h": 11591, "ult_data": "30/05/2026"},
-                "005": {"nome": "2A (BIENAL)", "tipo": "Tempo", "intervalo_dias": 730, "ult_h": 11591, "ult_data": "26/05/2025"},
-                "006": {"nome": "3A (TRIENAL)", "tipo": "Tempo", "intervalo_dias": 1095, "ult_h": 11591, "ult_data": "07/12/2024"},
-                "007": {"nome": "INSPECAO ITENS DE SEGURANCA 1S", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 11591, "ult_data": "06/08/2026"}
+                "001": {"nome": "250H/20000KM", "tipo": "Misto", "intervalo_h": 250, "ult_h": 11535, "ult_data": "06/06/2026"},
+                "002": {"nome": "500H/40.000KM", "tipo": "Misto", "intervalo_h": 500, "ult_h": 11286, "ult_data": "29/11/2025"},
+                "003": {"nome": "900H/60.000KM", "tipo": "Horas", "intervalo_h": 750, "ult_h": 11286, "ult_data": "29/11/2025"},
+                "004": {"nome": "1A", "tipo": "Tempo", "intervalo_dias": 365, "ult_h": 11591, "ult_data": "30/05/2026"},
+                "005": {"nome": "2A", "tipo": "Tempo", "intervalo_dias": 730, "ult_h": 11591, "ult_data": "26/05/2025"},
+                "006": {"nome": "3A", "tipo": "Tempo", "intervalo_dias": 1095, "ult_h": 11591, "ult_data": "07/12/2024"},
+                "007": {"nome": "INSPEÇÃO ITENS DE SEGURANÇA 1S", "tipo": "Tempo", "intervalo_dias": 7, "ult_h": 11591, "ult_data": "06/08/2026"}
             }
         },
         "CA0024": {
@@ -80,44 +81,49 @@ if 'banco_frota' not in st.session_state:
     }
 escopos_volvo = {
     "001": {
-        "tarefas": ["LU0389-Substituir oleo motor", "LU0329-Substituir filtro oleo do motor", "LU0322-Substituir filtro combustivel", "LU0348-Substituir filtro separador de agua", "LU0319-Substituir filtro de ar primario", "LU0474-Substituir o filtro antipolen do ar condicionado", "LU0153 / LU0416-Lubrificacao geral do chassi e suspensao", "LU0495 / LU0499-Engraxar alavanca ajuste eixo came e pino mestre"],
+        "tarefas": ["LU0389 Substituir oleo motor", "LU0329 Substituir filtro de oleo do motor", "LU0322 Substituir filtro de combustivel", "LU0348 Substituir filtro separador de agua", "LU0319 Substituir filtro de ar primario", "LU0474 Substituir o filtro antipolen do ar condicionado", "LU0153/LU0416 Lubrificacao geral chassi", "LU0495/LU0499 Engraxar alavanca de ajuste"],
         "materiais": {"Código": ["27241", "27179", "27180", "27181", "27182", "27893", "16657"], "Descrição": ["OLEO LUBRIFICANTE SAE 10W30 VDS-4.5", "FILTRO OLEO VO24063074 CAMINHAO VOLVO", "FILTRO COMBUSTIVEL VO24275477 CAMINHAO", "FILTRO VO24275463 CAMINHAO VOLVO VM 36", "FILTRO AR VO21436535 CAMINHAO VOLVO V", "FILTRO AR CONDICIONADO VO85134455 CAMI", "GRAXA MINERAL SABAO DE LITIO NLGI 2 EP"], "Qtd": ["24,00 L", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,70 KG"]}
     },
     "002": {
-        "tarefas": ["LU0303-Substituir oleo do cambio e limpeza do respiro", "LU0341-Substituir filtro do oleo de transmissão e diferencial", "LU0386-Substituir oleo do eixo dianteiro", "LU0387-Substituir oleo do eixo traseiro", "LU0562/LU0563/LU0564/LU0565-Substituir oleo cubos roda (Diant/Tras)"],
+        "tarefas": ["LU0303 Substituir oleo do cambio e limpeza do respiro", "LU0341 Substituir filtro do oleo de transmissão e diferencial", "LU0386 Substituir oleo do eixo dianteiro", "LU0387 Substituir oleo do eixo traseiro", "LU0562/LU0563/LU0564/LU0565 Substituir oleo cubos roda"],
         "materiais": {"Código": ["27348", "27839", "27239"], "Descrição": ["OLEO SAE 50 TO-4 / ALLISON C-4", "FILTRO CAIXA DE MUDANCA VO24283117 CAM", "OLEO DIFERENCIAL 85W140 VO85131721 CAM"], "Qtd": ["18,00 L", "1,00 PC", "43,50 L"]}
     },
     "003": {
-        "tarefas": ["LU0501-Substituir elemento do filtro de particulados (DPF)", "LU0567-Substituir filtro do tanque do ARLA", "LU0568-Filtro boia tanque ARLA"],
+        "tarefas": ["LU0501 Substituir elemento do filtro de particulados (DPF)", "LU0567 Substituir filtro do tanque do ARLA", "LU0568 Filtro boia tanque ARLA"],
         "materiais": {"Código": ["28798", "28799", "F-DPF"], "Descrição": ["KIT FILTRO AR ARLA VO24147170 CAMINHAO", "FILTRO BOIA TANQUE ARLA VO24111100 CAM", "ELEMENTO DO FILTRO DE PARTICULADOS (DPF)"], "Qtd": ["1,00 KIT", "1,00 PC", "1,00 PC"]}
-    },
-    "004": {"tarefas": ["ME0994-Ajuste regulagem nas unidades / valvulas injetoras do motor"], "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MAO DE OBRA ESPECIALIZADA MECANICO - FROTA"], "Qtd": ["0,50 H"]}},
-    "005": {"tarefas": ["ME1027-Limpeza evaporador do ar", "ME0724-Inspecionar luz freio/sirene re", "ME0026-Pressao e desgaste pneus"], "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE APOIO / INSPECAO VISUAL SEMANAL"], "Qtd": ["1,00 AP"]}},
-    "007": {"tarefas": ["ME0991-Substituir correia transmission motriz", "LU0357-Substituir fluido direcao hidraulica", "LU0324-Substituir filtro direcao hidraulica"], "materiais": {"Código": ["27184", "09814", "28850"], "Descrição": ["CORREIA TRANSMISSAO VO22707521 CAMINHA", "OLEO HIDRAULICO DIRECAO/TRANSMISSAO TE", "FILTRO DIRECAO HIDRAULICA VO21519716 C"], "Qtd": ["1,00 PC", "4,00 L", "1,00 PC"]}},
-    "008": {"tarefas": ["LU0503-Substituir sensor de oxigenio (Sonda Lambda original)"], "materiais": {"Código": ["S-OXIG"], "Descrição": ["SENSOR DE OXIGENIO ORIGINAL VOLVO VM"], "Qtd": ["1,00 PC"]}},
-    "009": {"tarefas": ["LU0358-Substituir liquido de arrefecimento (Aditivo VCS2 Laranja)", "LU0342-Substituir filtro secador APU", "ME0992-Substituir esticador correia motriz", "ME0993-Substituir polia intermediaria correia"], "materiais": {"Código": ["27285", "27183", "27185", "27186"], "Descrição": ["ADITIVO VOLVO VCS2 (40% A 60%) LARANJA", "FILTRO SECADOR VO21620181 CAMINHAO VOL", "ESTICADOR CORREIA VO22307253 CAMINHAO", "POLIA INTERMEDIARIA VO22307251 CAMINHA"], "Qtd": ["32,00 L", "1,00 PC", "1,00 PC", "1,00 PC"]}}
+    }
 }
 
 escopos_iveco = {
     "001": {
-        "tarefas": ["1. LU0389-Substituir oleo do motor","2. LU0329-Substituir filtro de oleo do motor","3. LU0319-Substituir filtro de ar primario","4. LU0321-Substituir filtro de ar secundario","5. LU0322-Substituir filtro de combustivel (Duplo)","6. LU0348-Substituir filtro separador de agua","7. LU0153-Lubrificacao geral do chassi e suspensao dianteira","8. LU0416-Lubrificacao da suspensao traseira e chassi traseiro","9. LU0495-Engraxar alavanca de ajuste do eixo came","10. LU0499-Engraxar pinos mestres da manga de eixo","11. ME0190-Inspecionar folgas na caixa de direcao e vazamentos","12. ME0103-Inspecionar articulacoes, barras e coluna de direcao","13. ME0087-Inspecionar cruzetas e rolamento intermediario","14. ME0485-Verificar funcionamento de farois, buzina e sinalizacao","15. ME0146-Conferir aperto das porcas das rodas","16. ME0026-Verificar pressao, desgaste e avarias nos pneus","17. ME0051-Inspecionar espessura de lonas e pastilhas de freio","18. ME0887-Drenar reservatorios de ar comprimido","19. LU0069-Verificar nivel do liquido de arrefecimento"],
-        "materiais": {"Código": ["02684","24068","24071","24072","24067","24070","16659"], "Descrição": ["OLEO MINERAL SAE 15W40 API CI-4","FILTRO OLEO IVECO NEXPRO","FILTRO AR PRIMARIO IVECO NEXPRO","ELEMENTO FILTRANTE AR SECUNDARIO","FILTRO COMBUSTIVEL IVECO NEXPRO","FILTRO SEPARADOR AGUA IVECO NEXPRO","GRAXA MINERAL SABAO DE LITIO NLGI 3"], "Qtd": ["11,60 L","1,00 PC","1,00 PC","1,00 PC","2,00 PC","1,00 PC","1,50 KG"]}
+        "tarefas": ["LU0389 Substituir oleo do motor", "LU0329 Substituir filtro de oleo do motor", "LU0319 Substituir filtro de ar primario", "LU0321 Substituir filtro de ar secundario", "LU0322 Substituir filtro de combustivel", "LU0348 Substituir filtro separador de agua", "LU0153 Lubrificacao Geral", "LU0159 Lubrificar arvore de transmissao", "LU0290 Lubrificar terceiro eixo auxiliar(cubos das rodas)", "ME0147 Inspecionar e controlar indicador de obstrucao do filtro de ar", "ME0095 Inspecionar as lonas de freios", "ME0375 Inspecionar tandem traseiro", "ME0493 Sanar vazamentos de todos grupos mecanicos", "ME0071 Inspecionar ajuste das porcas dos grampos feixe de molas", "ME0070 Inspecionar abracadeiras-a vedacao condicao manqueiras aspiracao", "ME0412 Inspecionar vedacao da junta da tampa do filtro de ar", "ME0368 Inspecionar sistema de arrefecimento e aquecedor", "ME0369 Inspecionar sistema de basculamento da cabine", "ME0215 Inspecionar funcionamento dispositivo bloqueio sinalizador"],
+        "materiais": {"Código": ["02684", "24068", "24071", "24072", "24067", "24069", "24070", "16659", "16660", "09048", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["ÓLEO MINERAL SAE 15W/40 API CI-4 (VOLV", "FILTRO ÓLEO IVECO NEXPRO (500058314)", "FILTRO AR PRIMÁRIO IVECO NEXPRO (50005", "ELEMENTO FILTRANTE AR SECUNDÁRIO IVECO", "FILTRO COMBUSTÍVEL IVECO NEXPRO (50005", "FILTRO COMBUSTÍVEL IVECO NEXPRO (50005", "FILTRO SEPARADOR ÁGUA/COMBUSTÍVEL IVEC", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 3 PE", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 3%", "GRAXA MINERAL SABÃO DE LÍTIO NLGI 2 TE", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA)"], "Qtd": ["11,60 L", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "1,00 PC", "0,50 KG", "0,50 KG", "0,50 KG", "0,50 H", "0,50 H"]}
     },
     "002": {
-        "tarefas": ["Executa todas as 19 etapas basicas da Sequencia 001","LU0303-Substituir oleo da caixa de mudancas (Cambio)","LU0341-Substituir filtro da transmissao"],
-        "materiais": {"Código": ["02697","FIL-04"], "Descrição": ["OLEO MINERAL SAE 40 API CF","FILTRO DA TRANSMISSAO IVECO"], "Qtd": ["15,00 L","1,00 PC"]}
+        "tarefas": ["ME0190 Inspecionar fixacao da caixa de direcao do seu suporte", "ME0103 Inspecionar barras de direcao-rotulas e coluna da direcao", "ME0087 Inspecionar arvore de transmissao-cruzeta fixacao dos flanges", "ME0485 Regulagem dos farois lanternas traseiras laterais", "ME0146 Inspecionar e apertar-se necessario-as porcas rodas", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
+        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MECANICO-FROTA (MÃO DE OBRA MPREV)"], "Qtd": ["0,50 H"]}
     },
     "003": {
-        "tarefas": ["Executa todas as 19 etapas basicas da Sequencia 001","LU0387-Substituir oleo do eixo diferencial traseiro"],
-        "materiais": {"Código": ["07105"], "Descrição": ["OLEO MINERAL SAE 85W140 API GL-5"], "Qtd": ["22,70 L"]}
+        "tarefas": ["ME0506 Substituir correia dos comandos auxiliares do motor principal", "ME0191 Inspecionar fixacao da suspensão do motor", "ME0225 Inspecionar interferencias das partes moveis", "LU0303 Substituir oleo do cambio e limpeza do respiro de vapores", "LU0384 Substituir oleo do diferencial", "LU0132 Limpar o respiro dos vapores de oleo", "LU0396 Substituir oleo dos cubos das rodas dianteiras", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
+        "materiais": {"Código": ["08892", "02697", "07105", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["CORREIA POLY V IVECO (4898546)", "ÓLEO MINERAL SAE 40 API CF ACEA E2.", "ÓLEO MINERAL SAE 85W/140 API GL-5", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA)"], "Qtd": ["1,00 PC", "15,00 L", "22,70 L", "0,50 H", "0,50 H"]}
     },
-    "004": {"tarefas": ["ME0210-Revisao estrutural anual, reaperto estrutural e torque de cabecote"], "materiais": {"Código": ["MAO-MEC"], "Descrição": ["MAO DE OBRA REAPARTO E VALVULAS IVECO"], "Qtd": ["1,00 H"]}},
-    "005": {"tarefas": ["ME1027-Limpeza profunda e higienizacao do evaporador do ar condicionado"], "materiais": {"Código": ["SUP-01"], "Descrição": ["MATERIAIS DE HIGIENIZACAO DE CABINE IVECO"], "Qtd": ["1,00 AP"]}},
-    "006": {"tarefas": ["LU0502-Substituir tampa do reservatorio hidraulico da embreagem assistida"], "materiais": {"Código": ["TAM-01"], "Descrição": ["TAMPA RESERVATORIO EMBREAGEM COMPLETA"], "Qtd": ["1,00 PC"]}},
-    "007": {"tarefas": ["ME0724-Checklist semanal de seguranca e luzes operacionais de mina"], "materiais": {"Código": ["INSP-SEG"], "Descrição": ["MATERIAIS DE APOIO / INSPECAO VISUAL"], "Qtd": ["1,00 AP"]}}
+    "004": {
+        "tarefas": ["LU0008 Drenar e lavar o reservatorio de combustivel", "LU0342 Substituir filtro do secador", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO"],
+        "materiais": {"Código": ["24073", "ESPECIALIDADE LUF"], "Descrição": ["FILTRO SECADOR AR IVECO NEXPRO (500090", "LUBRIFICADOR - FROTA (MÃO DE OBRA 12M)"], "Qtd": ["1,00 PC", "0,50 H"]}
+    },
+    "005": {
+        "tarefas": ["LU0358 Substituir liquido de arrefecimento", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO"],
+        "materiais": {"Código": ["16205", "ESPECIALIDADE LUF"], "Descrição": ["FLUIDO DE ARREFECIMENTO WURTH 50/50 CO", "LUBRIFICADOR - FROTA (MÃO DE OBRA 24M)"], "Qtd": ["23,00 L", "0,50 H"]}
+    },
+    "006": {
+        "tarefas": ["ME0135 INSPECIONAR DEFORMACOES NA MOLA PNEUMATICA DA SUSPENSAO DO 3° EIXO", "ME0511 Substituir liquido de acionamento do comando de embreagem", "ESPECIALIDADE LUF TAREFA DE LUBRIFICAÇÃO", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
+        "materiais": {"Código": ["02655", "ESPECIALIDADE LUF", "ESPECIALIDADE MEF"], "Descrição": ["FLUIDO FREIO SINTETICO DOT 4 GLYCOL", "LUBRIFICADOR - FROTA (MÃO DE OBRA)", "MECANICO-FROTA (MÃO DE OBRA 36M)"], "Qtd": ["0,40 L", "0,17 H", "0,17 H"]}
+    },
+    "007": {
+        "tarefas": ["ME0724 INSPECIONAR LUZ DE FREIO SIRENE DE RÉ", "EL0007 Inspecionar farois-a ilumincao de trabalho o alarme de marcha", "ME1020 VERIFICAR FUNCIONAMENTO DA BUZINA, SUBSTITUIR SE NECESSARIO", "LU0069 Inspecionar nivel de oleo do motor", "LU0077 Inspecionar nivel de refrigerante/arrefecimento-completar", "LU0070 Inspecionar nivel de oleo do reservatorio da direcao hidraulica", "ME0887 VERIFICAR O NÍVEL DO SEPARADOR DAGUA. DRENAR, SE NECESSÁRIO", "LU0050 Inspecionar filtro de ar-limpar e substituir se estiver", "ME0026 Conferir pressao-desgaste e possiveis danos nos pneus Fazer", "ME0370 Inspecionar sistema de freio", "ESPECIALIDADE MEF TAREFA MECÂNICA"],
+        "materiais": {"Código": ["ESPECIALIDADE MEF"], "Descrição": ["MECANICO-FROTA (MÃO DE OBRA INSPEÇÃO 1S)"], "Qtd": ["0,50 H"]}
+    }
 }
-
-if 'historico' not in st.session_state: st.session_state.historico = []
 
 def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
     pdf = FPDF()
@@ -170,7 +176,7 @@ def gerar_pdf_detalhado_operacional(ativo, tabela_dados, escopos):
                 pdf.cell(125, 5, str(mats["Descrição"][i]), border=1)
                 pdf.cell(25, 5, str(mats["Qtd"][i]), border=1, ln=1)
             pdf.ln(6)
-    return pdf.output(dest="S").encode("latin-1", errors="ignore")
+return pdf.output(dest="S").encode("latin-1", errors="ignore")
 col_sel1, col_sel2 = st.columns(2)
 with col_sel1:
     tag_selecionado = st.selectbox(" 🚛 Selecione o Veículo para Gerenciamento:", list(st.session_state.banco_frota.keys()))
